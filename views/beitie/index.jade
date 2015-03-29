@@ -1,0 +1,9 @@
+extends layout
+
+block content
+
+    #beities.container
+        ul#beitie-list.list-group
+            each folder, index in folders
+                li.list-group-item
+                    a(href="#{folder}")= folder

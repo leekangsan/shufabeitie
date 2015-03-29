@@ -1,0 +1,30 @@
+html {
+    overflow-y: scroll;
+}
+.beitie-info-row {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+#beitie-description {
+    width: 80%;
+    resize: none;
+}
+#beitie-text {
+    width: 80%;
+    resize: none;
+}
+#beities {
+    margin-top: 71px;
+}
+.beitie-img {
+    margin-bottom: 20px;
+}
+.field-name {
+    text-align: right;
+    display: block;
+    float: left;
+    color: #999;
+    width: 78px;
+    padding: 0 5px 0 12px;
+    font-weight: bold;
+}

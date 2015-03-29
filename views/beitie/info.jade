@@ -1,0 +1,54 @@
+extends layout
+
+block content
+
+    #beities.container
+        form#beitie-info-contaioner.form.form-inline.alert.alert-info(method="post")
+            .row.beitie-info-row
+                .col-md-6
+                    .row
+                        .form-group.col-md-6.col-sm-6
+                            label 名称
+                            input.form-control.input-sm(type="text", name="name", value="#{info.name}")
+                        .form-group.col-md-6.col-sm-6
+                            label 朝代
+                            input.form-control.input-sm(type="text", name="dynasty", value="#{info.dynasty}")
+                .col-md-6
+                    .row
+                        .form-group.col-md-6.col-sm-6
+                            label 书体
+                            input.form-control.input-sm(type="text", name="category", value="#{info.category}")
+                        .form-group.col-md-6.col-sm-6
+                            label 尺寸
+                            input.form-control.input-sm(type="text", name="size", value="#{info.size}")
+            .row.beitie-info-row
+                .col-md-6
+                    .row
+                        .form-group.col-md-6.col-sm-6
+                            label 作者
+                            input.form-control.input-sm(type="text", name="author", value="#{info.author}")
+                        .form-group.col-md-6.col-sm-6
+                            label 材质
+                            input.form-control.input-sm(type="text", name="type", value="#{info.type}")
+                .col-md-6
+                    .row
+                        .form-group.col-md-6.col-sm-6
+                            label 馆藏地点
+                            input.form-control.input-sm(type="text", name="collector", value="#{info.collector}")
+            .row.beitie-info-row
+                .col-md-6
+                    .row
+                        .form-group.col-md-12.col-sm-12
+                            label 简介
+                            input#beitie-description.form-control.input-sm(type="text", name="description", value="#{info.description}")
+                .col-md-6
+                    .row
+                        .form-group.col-md-12.col-sm-12
+                            label 内容
+                            textarea#beitie-text.form-control(name="text")= info.text
+            .row.beitie-info-row
+                .col-md-12
+                    .row
+                        .form-group.col-md-12.col-sm-12.text-center
+                            input.form-control(type="submit", value="保存")
+

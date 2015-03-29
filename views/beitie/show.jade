@@ -1,0 +1,58 @@
+extends layout
+
+block content
+
+    #beities.container
+        #beitie-info-contaioner.alert.alert-info
+            .row
+                .col-md-6
+                    .row
+                        .col-md-3.col-sm-3.field-name.
+                            名称
+                        .col-md-3.col-sm-3.
+                            #{info.name}
+                        .col-md-3.col-sm-3.field-name.
+                            朝代
+                        .col-md-3.col-sm-3.
+                            #{info.dynasty}
+                .col-md-6
+                    .row
+                        .col-md-3.col-sm-3.field-name.
+                            书体
+                        .col-md-3.col-sm-3.
+                            #{info.category}
+                        .col-md-3.col-sm-3.field-name.
+                            尺寸
+                        .col-md-3.col-sm-3.
+                            #{info.size}
+            .row
+                .col-md-6
+                    .row
+                        .col-md-3.col-sm-3.field-name.
+                            作者
+                        .col-md-3.col-sm-3.
+                            #{info.author}
+                        .col-md-3.col-sm-3.field-name.
+                            材质
+                        .col-md-3.col-sm-3.
+                            #{info.type}
+                .col-md-6
+                    .row
+                        .col-md-3.col-sm-3.field-name.
+                            馆藏地点
+                        .col-md-3.col-sm-3.
+                            #{info.collector}
+            .row
+                .col-md-6
+                    .row
+                        .col-md-3.col-sm-3.field-name.
+                            简介
+                        .col-md-9.
+                            #{info.description}
+                .col-md-6
+
+        #beitie-imgs-container(data-img-size="#{images.length}")
+            each file, index in images
+                .row
+                    img.col-md-12.img-responsive.beitie-img(src="#{path}#{file}")
+
