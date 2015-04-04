@@ -1,0 +1,35 @@
+#! /bin/sh
+
+function remove_underline {
+	if [ $# -eq 0 ]
+	then
+		echo "first parameter should be a directory"
+	elif [ ! -d $1 ]
+	then
+		echo "parameter 1 should be a directory"
+	else
+		for file in $(ls $1)
+		do
+            old_file=$1/$file
+			if [[ $file =~ _ ]]
+			then
+                new_file=$1/${file//_/}
+				echo mv $old_file $new_file
+				mv $old_file $new_file
+
+                if [ -d $new_file ]
+                then
+                    echo "remove_underline $new_file"
+                    remove_underline $new_file
+                fi
+            elif [ -d $old_file ]
+            then
+                remove_underline $old_file
+			fi
+		done
+	fi
+}
+
+
+remove_underline $1
+

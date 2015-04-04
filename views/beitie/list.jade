@@ -1,9 +1,16 @@
-extends layout
+extends ../layout.jade
 
 block content
 
     #beities.container
-        ul#beitie-list.list-group
+
+        ol.breadcrumb
+            li
+                a(href="../") 上一级目录
+
+        #beitie-list.row
             each folder, index in folders
-                li.list-group-item
-                    a(href="#{folder.value}")= folder.key
+                .col-md-4.col-sm-6
+                    .thumbnail
+                        .caption
+                            a(href="#{folder.value}")= folder.key

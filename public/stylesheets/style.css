@@ -1,20 +1,26 @@
 html {
     overflow-y: scroll;
 }
+#navbar-top {
+    border-radius: 0;
+}
+#beitie-text {
+    width: 95%;
+    height: 240px;
+    resize: none;
+}
+#beitie-text-show {
+}
+#beities {
+    width: 92%;
+}
 .beitie-info-row {
     margin-top: 5px;
     margin-bottom: 5px;
 }
 #beitie-description {
-    width: 80%;
+    width: 95%;
     resize: none;
-}
-#beitie-text {
-    width: 80%;
-    resize: none;
-}
-#beities {
-    margin-top: 71px;
 }
 .beitie-img {
     margin-bottom: 20px;
@@ -27,4 +33,33 @@ html {
     width: 78px;
     padding: 0 5px 0 12px;
     font-weight: bold;
+}
+#beitie-img-pagination {
+    position: fixed;
+    text-align: center;
+    opacity: .5;
+    list-style: none;
+    left: 50%;
+    margin-left: -160px;
+    bottom: 0;
+    padding: 0;
+    display: none;
+}
+#beitie-img-pagination li {
+    float: left;
+    margin-right: 50px;
+}
+.beitie-img-container {
+    text-align: center;
+}
+#load-finished {
+    color: green;
+    font-size: 18px;
+}
+#footer-info {
+    margin: 0;
+    padding: 0 50px;
+    background: #000;
+    line-height: 50px;
+    text-align: center;
 }

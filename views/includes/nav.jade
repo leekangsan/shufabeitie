@@ -1,18 +1,10 @@
-.navbar.navbar-inverse.navbar-fixed-top
+#navbar-top.navbar.navbar-inverse
     .container
         .navbar-header
-            span.navbar-brand 书法碑帖
+            a.navbar-brand(href="/") 书法碑帖
 
-        .navbar-collapse.collapse
-            ul.nav.navbar-nav
-                li
-                    a(href="/") 首页
-                li.hide
-                    a(href="/calligraphist") 书法名家
-                li.hide
-                    a(href="/epoch") 时代
-                li.hide
-                    a(href="/paper") 书论
-                li.hide
-                    a(href="/search") 搜索
-
+        form#beitie-search.navbar-form.navbar-right(role="search", action="/search")
+            .form-group.input-group
+                input.form-control(type="text", name="keywords")
+                span.input-group-btn
+                    button.btn.btn-default(type="submit") 搜索

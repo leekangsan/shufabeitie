@@ -1,0 +1,22 @@
+#! /bin/sh
+
+if [ -d $1 ]
+then
+    echo $1
+    for file in $(ls $1)
+    do
+        if [[ $file =~ .*\.pdf ]]
+        then
+            dir=$1/${file%.pdf}
+            if [ -e $dir ]
+            then
+                echo "$dir exists"
+            else
+                echo "mkdir $dir"
+                mkdir $dir
+                echo convert $1/$file $dir/img.jpg
+                convert $1/$file $dir/img.jpg
+            fi
+        fi
+    done
+fi

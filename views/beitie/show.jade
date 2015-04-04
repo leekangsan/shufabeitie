@@ -1,58 +1,66 @@
-extends layout
+extends ../layout
 
 block content
 
     #beities.container
+
+        ol.breadcrumb
+            li
+                a(href="../") 上一级目录
+            li
+                a(href="../#{prev}/") 上一法帖
+            li
+                a(href="../#{next}/") 下一法帖
+
         #beitie-info-contaioner.alert.alert-info
             .row
-                .col-md-6
+                .col-md-6.col-sm-6
                     .row
-                        .col-md-3.col-sm-3.field-name.
+                        .col-md-2.col-sm-4.field-name.
                             名称
-                        .col-md-3.col-sm-3.
+                        .col-md-10.col-sm-8.
                             #{info.name}
-                        .col-md-3.col-sm-3.field-name.
+                    .row
+                        .col-md-2.col-sm-4.field-name.
                             朝代
-                        .col-md-3.col-sm-3.
+                        .col-md-10.col-sm-8.
                             #{info.dynasty}
-                .col-md-6
+                .col-md-6.col-sm-6
                     .row
-                        .col-md-3.col-sm-3.field-name.
+                        .col-md-2.col-sm-4.field-name.
                             书体
-                        .col-md-3.col-sm-3.
+                        .col-md-10.col-sm-8.
                             #{info.category}
-                        .col-md-3.col-sm-3.field-name.
-                            尺寸
-                        .col-md-3.col-sm-3.
-                            #{info.size}
-            .row
-                .col-md-6
                     .row
-                        .col-md-3.col-sm-3.field-name.
+                        .col-md-2.col-sm-4.field-name.
                             作者
-                        .col-md-3.col-sm-3.
+                        .col-md-10.col-sm-8.
                             #{info.author}
-                        .col-md-3.col-sm-3.field-name.
-                            材质
-                        .col-md-3.col-sm-3.
-                            #{info.type}
-                .col-md-6
-                    .row
-                        .col-md-3.col-sm-3.field-name.
-                            馆藏地点
-                        .col-md-3.col-sm-3.
-                            #{info.collector}
             .row
-                .col-md-6
+                .col-md-6.col-sm-6
                     .row
-                        .col-md-3.col-sm-3.field-name.
+                        .col-md-2.col-sm-4.field-name.
                             简介
-                        .col-md-9.
+                        .col-md-10.col-sm-8.
                             #{info.description}
-                .col-md-6
-
-        #beitie-imgs-container(data-img-size="#{images.length}")
+        #beitie-imgs-container
             each file, index in images
-                .row
-                    img.col-md-12.img-responsive.beitie-img(src="#{path}#{file}")
+                if index < 2
+                    .row.beitie-img-container(id="a#{index}")
+                        img.col-xs-12.col-md-12.img-responsive.beitie-img(src="#{path}#{thumbnail}#{file}")
+                else
+                    .row.beitie-img-container.beitie-lazy-img(data-src="#{path}#{thumbnail}#{file}", id="a#{index}")
 
+            #load-finished.row.text-center.hide
+                .col-md-12.
+                    此法帖已全部加载！
+
+        ul#beitie-img-pagination.row(data-img-size="#{images.length}")
+            li
+                a#beitie-img-home.btn.btn-default(href="#navbar-top") 顶部
+            li
+                a#beitie-img-prev.btn.btn-default(href="#a0") 上一张
+            li
+                a#beitie-img-next.btn.btn-default(href="#a2") 下一张
+
+        script(src="/javascripts/show.js")
