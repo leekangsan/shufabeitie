@@ -43,7 +43,8 @@ block content
                             简介
                         .col-md-10.col-sm-8.
                             #{info.description}
-        #beitie-imgs-container
+
+        #beitie-imgs-container(data-img-size="#{images.length}")
             each file, index in images
                 if index < 2
                     .row.beitie-img-container(id="a#{index}")
@@ -55,12 +56,15 @@ block content
                 .col-md-12.
                     此法帖已全部加载！
 
-        ul#beitie-img-pagination.row(data-img-size="#{images.length}")
-            li
-                a#beitie-img-home.btn.btn-default(href="#navbar-top") 顶部
-            li
-                a#beitie-img-prev.btn.btn-default(href="#a0") 上一张
-            li
-                a#beitie-img-next.btn.btn-default(href="#a2") 下一张
+block footer
+    footer#footer
+        #footer-info
+            ul#beitie-img-pagination
+                li(role="presentation")
+                    a#beitie-img-home.btn.btn-default(href="#navbar-top") 顶部
+                li(role="presentation")
+                    a#beitie-img-prev.btn.btn-default(href="#a0") 上一张
+                li(role="presentation")
+                    a#beitie-img-next.btn.btn-default(href="#a2") 下一张
 
-        script(src="/javascripts/show.js")
+            script(src="/javascripts/show.js")

@@ -22,8 +22,8 @@ router.use('/:action', function(req, res, next) {
 
 // remove blank space from filename and directory name.
 router.get('/rename', function(req, res, next) {
-    //  孙保造像记
-    var reg = /[\s\t\n]+/g, chineseChars = /[【《〈)（\[—·，+\]）(〉》】]+/g,
+    //  从文件名中删除这些匹配到的字符
+    var reg = /[【《〈)（\[—·，、［］\s\t+\]）(〉》】]+/g,
         walk = function(path) {
             var files = fs.readdirSync(path);
             files.forEach(function(item) {
@@ -31,20 +31,22 @@ router.get('/rename', function(req, res, next) {
                     stats = fs.statSync(oldName);
 
                 if (stats.isDirectory()) {
-                    if (reg.test(item) || chineseChars.test(item)) {
-                        var newName = path + '/' + item.replace(reg, '_').replace(chineseChars, '');
+                    if (reg.test(item)) {
+                        var newName = path + '/' + item.replace(reg, '');
                         fs.rename(oldName, newName, function(err) {
                             if (!err) {
                                 console.log(oldName + ': folder renamed successfully!');
                                 walk(newName);
+                            } else {
+                                console.log(err);
                             }
                         });
                     } else {
                         walk(oldName);
                     }
                 } else {
-                    if (reg.test(item) || chineseChars.test(item)) {
-                        var newName = path + '/' + item.replace(reg, '_').replace(chineseChars, '');
+                    if (reg.test(item)) {
+                        var newName = path + '/' + item.replace(reg, '');
                         fs.rename(oldName, newName, function(err) {
                             if (!err) {
                                 console.log(oldName + ': file renamed successfully!');
@@ -52,6 +54,7 @@ router.get('/rename', function(req, res, next) {
                                 console.log(err);
                             }
                         });
+                        // TODO: rename img-1.jpg to img-01.jpg
                     }
                 }
             });
@@ -93,7 +96,7 @@ router.get(/^\/([^\/]*)\/$/, function(req, res) {
         path = 'public' + source,
         folders = [];
 
-    console.log(source, req.params[0]);
+    // console.log(source, req.params[0]);
     if (!fs.existsSync(path)) {
         res.status(404).render('beitie/404', {
             url: source
@@ -133,7 +136,7 @@ router.get(/(^\/.*?\/)(.*?)\/$/, function(req, res) {
         thumbnailExist = false,
         thumbnailDirectory = dir + 'thumbnail/';
 
-    console.log(req.params[0], current);
+    // console.log(req.params[0], current);
     if (fs.existsSync(thumbnailDirectory)) {
         thumbnailExist = true;
     }

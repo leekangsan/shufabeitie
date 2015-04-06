@@ -1,0 +1,17 @@
+#! /bin/sh
+
+IFS=$'\n'
+
+for file in $(ls $1)
+    do
+    if [[ $file =~ .*\.jpg ]]
+    then
+		new_file=${file// /}
+		new_dir=${new_file%.jpg}
+        echo $new_dir
+		mkdir $1/$new_dir
+		mv $1/$file $1/$new_dir/$new_file
+    fi
+done
+
+unset IFS

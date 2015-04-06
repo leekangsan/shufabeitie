@@ -1,3 +1,8 @@
+@media (max-width: 768px) {
+    .navbar-form {
+        margin-top: -3px;
+    }
+}
 html {
     overflow-y: scroll;
 }
@@ -39,15 +44,17 @@ html {
     text-align: center;
     opacity: .5;
     list-style: none;
-    left: 50%;
-    margin-left: -160px;
-    bottom: 0;
     padding: 0;
-    display: none;
+    bottom: 0;
+    left: 50%;
+    width: 300px;
+    margin: 0 0 0 -150px;
 }
 #beitie-img-pagination li {
     float: left;
-    margin-right: 50px;
+}
+#beitie-img-pagination li + li {
+    margin-left: 50px;
 }
 .beitie-img-container {
     text-align: center;
@@ -55,11 +62,16 @@ html {
 #load-finished {
     color: green;
     font-size: 18px;
+    margin-bottom: 20px;
 }
 #footer-info {
-    margin: 0;
-    padding: 0 50px;
     background: #000;
+    height: 50px;
     line-height: 50px;
     text-align: center;
+}
+.ellipsis {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }

@@ -12,5 +12,5 @@ block content
             each folder, index in folders
                 .col-md-4.col-sm-6
                     .thumbnail
-                        .caption
-                            a(href="#{folder.value}")= folder.key
+                        .caption.ellipsis
+                            a(href="#{folder.value}")= (index + 1) + '. ' + folder.key
