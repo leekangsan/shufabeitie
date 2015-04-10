@@ -1,3 +1,4 @@
 #! /bin/sh
 
-find . -name 'img-[0-9].jpg'|awk -F "-" '{print "mv " $0 " " $1 "-0" $2}' |sh
+cd /Users/david/shufabeitie/public/beitie/东晋王羲之/王羲之兰亭序虞世南摹本
+find . -name '*.jpg'|awk '{print "mv " $0  " ./img-" NR ".jpg" }'|sh

@@ -1,63 +1,40 @@
 $(function() {
-    var current = 'a1';
+    var blockDisplay = false,
+        blocks = function() {
+            if (blockDisplay) {
+                var numOfCol = 4,
+                    width = $(window).width();
+                if (width <= 960) {
+                    numOfCol = 2;
+                }
+                $('#beitie-imgs-container').blocksIt({
+                    numOfCol: numOfCol,
+                    initX: 8,
+                    initY: 0,
+                    offsetX: 10,
+                    offsetY: 10,
+                    blockElement: '.beitie-img-container'
+                });
+            } else {
+                $('#beitie-imgs-container').blocksDestroy();
+            }
+        };
 
-    $('#beitie-img-home').click(function() {
-        current = 'a0';
+    $('#beitie-img-blocks').click(function() {
+        blockDisplay = !blockDisplay;
+        blocks();
     });
 
     // 点击当前的图片，重新定位到当前图片起始位置
     $('.beitie-img-container').click(function() {
         var id = $(this).attr('id');
-        current = id;
-        window.location.href = '#' + current;
+        blockDisplay = false;
+        blocks();
+        window.location.href = '#' + id;
     });
 
-    $('#beitie-img-prev').click(function() {
-        var index = parseInt(current.replace('a', ''), 10);
-        if (index > 0) {
-            index = index - 1;
-            current = 'a' + index;
-            this.href = '#' + current;
-        } else {
-            return false;
-        }
+    $('.beitie-lazy-img').lazyload({
+        load: blocks
     });
-
-    // 向下翻页
-    $('#beitie-img-next').click(function() {
-        var index = parseInt(current.replace('a', ''), 10);
-        index = index + 1;
-        current = 'a' + index;
-        var next = $('#a' + index);
-        if (next.length === 0) {
-            index = index - 1;
-            current = 'a' + index;
-            $('#load-finished').removeClass('hide');
-            return false;
-        } else {
-            if (next.hasClass('beitie-lazy-img')) {
-                next.removeClass('beitie-lazy-img');
-                next.html('<img src="' + first.data('src') + '" class="col-md-12 col-xs-12 img-responsive beitie-img" />');
-                this.href = '#' + current;
-            } else {
-                this.href = '#' + current;
-            }
-        }
-    });
-
-    // 自动延时加载下一张图片
-    var lazyLoading = function () {
-        var lazyImages = $('.beitie-lazy-img');
-        if (lazyImages.length) {
-            setTimeout(function () {
-                var first = lazyImages.first().removeClass('beitie-lazy-img');
-                first.html('<img src="' + first.data('src') + '" class="col-md-12 col-xs-12 img-responsive beitie-img" />');
-                lazyLoading();
-            }, 15000);
-        } else {
-            $('#load-finished').removeClass('hide');
-        }
-    };
-    lazyLoading();
 
 });

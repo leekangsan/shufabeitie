@@ -2,7 +2,7 @@ extends ../layout
 
 block content
 
-    #beities.container
+    #beities.container-fluid
 
         ol.breadcrumb
             li
@@ -37,7 +37,7 @@ block content
                         .col-md-10.col-sm-8.
                             #{info.author}
             .row
-                .col-md-6.col-sm-6
+                .col-md-12.col-sm-12
                     .row
                         .col-md-2.col-sm-4.field-name.
                             简介
@@ -47,14 +47,18 @@ block content
         #beitie-imgs-container(data-img-size="#{images.length}")
             each file, index in images
                 if index < 2
-                    .row.beitie-img-container(id="a#{index}")
-                        img.col-xs-12.col-md-12.img-responsive.beitie-img(src="#{path}#{thumbnail}#{file}")
+                    .thumbnail.beitie-img-container(id="a#{index}")
+                        img.img-responsive.beitie-img(src="#{path}#{w1000}#{file}")
                 else
-                    .row.beitie-img-container.beitie-lazy-img(data-src="#{path}#{thumbnail}#{file}", id="a#{index}")
+                    .thumbnail.beitie-img-container.beitie-lazy-container(id="a#{index}")
+                        img.img-responsive.beitie-img.beitie-lazy-img(src="#{path}#{w100}#{file}", data-original="#{path}#{w1000}#{file}")
 
-            #load-finished.row.text-center.hide
-                .col-md-12.
-                    此法帖已全部加载！
+        if info.text
+            .alert.alert-info
+                h4.beitie-intro.
+                    法帖介绍
+                #beitie-text-show
+                    !{info.text}
 
 block footer
     footer#footer
@@ -63,8 +67,8 @@ block footer
                 li(role="presentation")
                     a#beitie-img-home.btn.btn-default(href="#navbar-top") 顶部
                 li(role="presentation")
-                    a#beitie-img-prev.btn.btn-default(href="#a0") 上一张
-                li(role="presentation")
-                    a#beitie-img-next.btn.btn-default(href="#a2") 下一张
+                    #beitie-img-blocks.btn.btn-default 平铺
 
+            script(src="/javascripts/jquery.blocksit.js")
+            script(src="/javascripts/jquery.lazyload.js")
             script(src="/javascripts/show.js")

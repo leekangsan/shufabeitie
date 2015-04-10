@@ -54,7 +54,6 @@ router.get('/rename', function(req, res, next) {
                                 console.log(err);
                             }
                         });
-                        // TODO: rename img-1.jpg to img-01.jpg
                     }
                 }
             });
@@ -133,12 +132,16 @@ router.get(/(^\/.*?\/)(.*?)\/$/, function(req, res) {
         parentDirectory = 'public/beitie' + decodeURIComponent(req.params[0]),
         dir = 'public' + path,
         infoExist = false,
-        thumbnailExist = false,
-        thumbnailDirectory = dir + 'thumbnail/';
+        w1000Exist = false,
+        w1000Directory = dir + 'w1000/',
+        w100Exist = false,
+        w100Directory = dir + 'w100/';
 
-    // console.log(req.params[0], current);
-    if (fs.existsSync(thumbnailDirectory)) {
-        thumbnailExist = true;
+    if (fs.existsSync(w1000Directory)) {
+        w1000Exist = true;
+    }
+    if (fs.existsSync(w100Directory)) {
+        w100Exist = true;
     }
     if (fs.existsSync(dir + info)) {
         infoExist = true;
@@ -161,13 +164,46 @@ router.get(/(^\/.*?\/)(.*?)\/$/, function(req, res) {
         nextIndex = 0;
     }
 
-    var files = fs.readdirSync(thumbnailExist ? thumbnailDirectory : dir);
+    var files = fs.readdirSync(w100Exist ? w100Directory : dir);
     var images = files.filter(function(t) {
         return /\.jpg/i.test(t);
     });
-    if (!thumbnailExist) {
-        console.log(new Date().toString("yyyy-MM-dd HH:mm:ss"), "缩略图文件夹不存在，创建文件夹，并生成全部图片的缩略图");
-        fs.mkdirSync(thumbnailDirectory);
+    if (!w100Exist) {
+        console.log(new Date().toString("yyyy-MM-dd HH:mm:ss"), "缩略图文件夹w100不存在，创建文件夹，并生成全部图片的缩略图");
+        fs.mkdirSync(w100Directory);
+
+        files.forEach(function(t) {
+            var isImg = /\.jpg/i.test(t);
+            if (isImg) {
+                lwip.open(dir + t, function(err, image) {
+                    if (err) {
+                        console.log(err);
+                        return;
+                    }
+                    var width = image.width(),
+                        ratio = 100 / width,
+                        simg = w100Directory + t;
+                    if (width > 100) {
+                        // define a batch of manipulations and save small image to disk
+                        image.batch().scale(ratio).writeFile(simg, function(err) {
+                            if (err) {
+                                console.log(err);
+                            }
+                        });
+                    } else {
+                        image.writeFile(simg, function(err) {
+                            if (err) {
+                                console.log(err);
+                            }
+                        });
+                    }
+                });
+            }
+        });
+    }
+    if (!w1000Exist) {
+        console.log(new Date().toString("yyyy-MM-dd HH:mm:ss"), "缩略图文件夹w1000不存在，创建文件夹，并生成全部图片的缩略图");
+        fs.mkdirSync(w1000Directory);
 
         files.forEach(function(t) {
             var isImg = /\.jpg/i.test(t);
@@ -179,7 +215,7 @@ router.get(/(^\/.*?\/)(.*?)\/$/, function(req, res) {
                     }
                     var width = image.width(),
                         ratio = 1000 / width,
-                        simg = thumbnailDirectory + t;
+                        simg = w1000Directory + t;
                     if (width > 1000) {
                         // define a batch of manipulations and save small image to disk
                         image.batch().scale(ratio).writeFile(simg, function(err) {
@@ -201,7 +237,8 @@ router.get(/(^\/.*?\/)(.*?)\/$/, function(req, res) {
 
     var json = {
         info: {},
-        thumbnail: thumbnailExist ? 'thumbnail/' : '',
+        w100: w100Exist ? 'w100/' : '',
+        w1000: w1000Exist ? 'w1000/' : '',
         images: images,
         prev: siblings[prevIndex],
         next: siblings[nextIndex],
@@ -212,6 +249,7 @@ router.get(/(^\/.*?\/)(.*?)\/$/, function(req, res) {
         fs.readFile(dir + info, function(err, data) {
             try {
                 json.info = JSON.parse(data);
+                json.info.text = json.info.text.replace(/\n+/g, '<p>');
             } catch (e) {
                 console.error(e);
             }
@@ -234,12 +272,9 @@ router.get(/(.*?\/)info$/, function(req, res) {
             name: "",
             dynasty: "东晋唐宋元明清代",
             category: "楷行草隶篆书",
-            type: "纸本墨迹拓片",
-            size: "",
+            type: "纸本墨迹拓本",
             text: "",
-            collector: "",
             author: "",
-            publisher: "",
             description: ""
         };
 
