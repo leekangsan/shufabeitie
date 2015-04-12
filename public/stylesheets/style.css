@@ -28,6 +28,7 @@ h4.beitie-intro {
     position: relative;
 }
 .beitie-img-container {
+    min-height: 100px;
     -webkit-transition: top 1s ease, left 1s ease;
     -moz-transition: top 1s ease, left 1s ease;
     -o-transition: top 1s ease, left 1s ease;

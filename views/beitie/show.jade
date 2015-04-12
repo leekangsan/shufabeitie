@@ -18,47 +18,47 @@ block content
                     .row
                         .col-md-2.col-sm-4.field-name.
                             名称
-                        .col-md-10.col-sm-8.
-                            #{info.name}
+                        .col-md-10.col-sm-8
+                            = info.name
                     .row
                         .col-md-2.col-sm-4.field-name.
                             朝代
-                        .col-md-10.col-sm-8.
-                            #{info.dynasty}
+                        .col-md-10.col-sm-8
+                            = info.dynasty
                 .col-md-6.col-sm-6
                     .row
                         .col-md-2.col-sm-4.field-name.
                             书体
-                        .col-md-10.col-sm-8.
-                            #{info.category}
+                        .col-md-10.col-sm-8
+                            = info.category
                     .row
                         .col-md-2.col-sm-4.field-name.
                             作者
-                        .col-md-10.col-sm-8.
-                            #{info.author}
+                        .col-md-10.col-sm-8
+                            = info.author
             .row
                 .col-md-12.col-sm-12
                     .row
                         .col-md-2.col-sm-4.field-name.
                             简介
-                        .col-md-10.col-sm-8.
-                            #{info.description}
+                        .col-md-10.col-sm-8
+                            = info.description
 
         #beitie-imgs-container(data-img-size="#{images.length}")
             each file, index in images
-                if index < 2
+                - if (index < 2)
                     .thumbnail.beitie-img-container(id="a#{index}")
                         img.img-responsive.beitie-img(src="#{path}#{w1000}#{file}")
-                else
+                - else
                     .thumbnail.beitie-img-container.beitie-lazy-container(id="a#{index}")
                         img.img-responsive.beitie-img.beitie-lazy-img(src="#{path}#{w100}#{file}", data-original="#{path}#{w1000}#{file}")
 
-        if info.text
+        - if (info.text)
             .alert.alert-info
                 h4.beitie-intro.
                     法帖介绍
                 #beitie-text-show
-                    !{info.text}
+                    != info.text
 
 block footer
     footer#footer
@@ -69,6 +69,6 @@ block footer
                 li(role="presentation")
                     #beitie-img-blocks.btn.btn-default 平铺
 
-            script(src="/javascripts/jquery.blocksit.js")
-            script(src="/javascripts/jquery.lazyload.js")
-            script(src="/javascripts/show.js")
+        script(src="/javascripts/jquery.blocksit.js")
+        script(src="/javascripts/jquery.lazyload.js")
+        script(src="/javascripts/show.js")

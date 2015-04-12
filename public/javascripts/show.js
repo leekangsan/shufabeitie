@@ -1,7 +1,7 @@
 $(function() {
-    var blockDisplay = false,
+    var blocksDisplay = false,
         blocks = function() {
-            if (blockDisplay) {
+            if (blocksDisplay) {
                 var numOfCol = 4,
                     width = $(window).width();
                 if (width <= 960) {
@@ -21,14 +21,14 @@ $(function() {
         };
 
     $('#beitie-img-blocks').click(function() {
-        blockDisplay = !blockDisplay;
+        blocksDisplay = !blocksDisplay;
         blocks();
     });
 
     // 点击当前的图片，重新定位到当前图片起始位置
     $('.beitie-img-container').click(function() {
         var id = $(this).attr('id');
-        blockDisplay = false;
+        blocksDisplay = false;
         blocks();
         window.location.href = '#' + id;
     });

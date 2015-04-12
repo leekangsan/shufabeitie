@@ -1,0 +1,67 @@
+#! /bin/sh
+
+function thumbnail {
+    if [ -d $1 ]
+    then
+        cd $1
+        for file in $(ls)
+        do
+            if [[ $file =~ .*\.jpg ]]
+            then
+                dir100=w100
+                dir1000=w1000
+                if [ ! -e $dir100 ]
+                then
+                    mkdir $dir100
+                fi
+                if [ ! -e $dir1000 ]
+                then
+                    mkdir $dir1000
+                fi
+
+                width=$(identify -format "%w" $file)
+                if [ ! -e $dir100/$file ]
+                then
+                    if [ $width -gt 100 ]
+                    then
+                        echo convert $file -resize 100 $dir100/$file
+                        convert $file -resize 100 $dir100/$file
+                    else
+                        cp $file $dir100/$file
+                    fi
+                fi
+
+                if [ ! -e $dir1000/$file ]
+                then
+                    if [ $width -gt 1000 ]
+                    then
+                        echo convert $file -resize 1000 $dir1000/$file
+                        convert $file -resize 1000 $dir1000/$file
+                    else
+                        cp $file $dir1000/$file
+                    fi
+                fi
+            fi
+        done
+    fi
+}
+
+
+dirnameofbin=$(dirname $0)
+currentpwd=$(pwd)
+beitie=$currentpwd/${dirnameofbin%\/bin}/public/beitie
+echo create thumbnails for directory $beitie
+
+for author in $(ls $beitie)
+do
+    for paper in $(ls $beitie/$author)
+    do
+        if [ -d $beitie/$author/$paper ]
+        then
+            echo create thumbnail for $beitie/$author/$paper
+            thumbnail $beitie/$author/$paper
+        fi
+    done
+done
+
+echo create finished!
