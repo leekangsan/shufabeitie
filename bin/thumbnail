@@ -19,27 +19,17 @@ function thumbnail {
                     mkdir $dir1000
                 fi
 
-                width=$(identify -format "%w" $file)
+                # width=$(identify -format "%w" $file)
                 if [ ! -e $dir100/$file ]
                 then
-                    if [ $width -gt 100 ]
-                    then
-                        echo convert $file -resize 100 $dir100/$file
-                        convert $file -resize 100 $dir100/$file
-                    else
-                        cp $file $dir100/$file
-                    fi
+                    echo convert $file -resize 100\> $dir100/$file
+                    convert $file -resize 100\> $dir100/$file
                 fi
 
                 if [ ! -e $dir1000/$file ]
                 then
-                    if [ $width -gt 1000 ]
-                    then
-                        echo convert $file -resize 1000 $dir1000/$file
-                        convert $file -resize 1000 $dir1000/$file
-                    else
-                        cp $file $dir1000/$file
-                    fi
+                    echo convert $file -resize 1000\> $dir1000/$file
+                    convert $file -resize 1000\> $dir1000/$file
                 fi
             fi
         done
@@ -48,20 +38,24 @@ function thumbnail {
 
 
 dirnameofbin=$(dirname $0)
+echo $dirnameofbin
 currentpwd=$(pwd)
-beitie=$currentpwd/${dirnameofbin%\/bin}/public/beitie
+echo $currentpwd
+beitie=$currentpwd/${dirnameofbin%bin}public/beitie
 echo create thumbnails for directory $beitie
-
-for author in $(ls $beitie)
-do
-    for paper in $(ls $beitie/$author)
+if [ -d $beitie ]
+then
+    for author in $(ls $beitie)
     do
-        if [ -d $beitie/$author/$paper ]
-        then
-            echo create thumbnail for $beitie/$author/$paper
-            thumbnail $beitie/$author/$paper
-        fi
+        for paper in $(ls $beitie/$author)
+        do
+            if [ -d $beitie/$author/$paper ]
+            then
+                echo create thumbnail for $beitie/$author/$paper
+                thumbnail $beitie/$author/$paper
+            fi
+        done
     done
-done
 
-echo create finished!
+    echo create finished!
+fi

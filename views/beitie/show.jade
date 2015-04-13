@@ -48,10 +48,10 @@ block content
             each file, index in images
                 - if (index < 2)
                     .thumbnail.beitie-img-container(id="a#{index}")
-                        img.img-responsive.beitie-img(src="#{path}#{w1000}#{file}")
+                        img.img-responsive.beitie-img(src="#{path1000}/#{file}")
                 - else
                     .thumbnail.beitie-img-container.beitie-lazy-container(id="a#{index}")
-                        img.img-responsive.beitie-img.beitie-lazy-img(src="#{path}#{w100}#{file}", data-original="#{path}#{w1000}#{file}")
+                        img.img-responsive.beitie-img.beitie-lazy-img(src="#{path100}/#{file}", data-original="#{path1000}/#{file}")
 
         - if (info.text)
             .alert.alert-info

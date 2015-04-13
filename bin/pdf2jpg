@@ -1,39 +1,43 @@
 #! /bin/sh
 
-if [ -d $1 ]
-then
-    echo $1
-    for file in $(ls $1)
-    do
-        if [[ $file =~ .*\.pdf ]]
-        then
-            dir=$1/${file%.pdf}
-            if [ -e $dir ]
-            then
-                echo "$dir exists"
-            else
-                echo "mkdir $dir"
-                mkdir $dir
-                echo convert $1/$file $dir/img.jpg
-                convert $1/$file $dir/img.jpg
-                cd $dir
-                find . -name 'img-[0-9].jpg'|awk -F "-" '{print "mv " $0 " " $1 "-0" $2}'|sh
-            fi
-        fi
-    done
-elif [[ $1 =~ .*\.pdf ]]
-then
-    file=$1
-    dir=${file%.pdf}
-    if [ -e $dir ]
+function pdftojpg {
+    if [ -d $1 ]
     then
-        echo "$dir exists"
-    else
-        echo "mkdir $dir"
-        mkdir $dir
-        echo convert $file $dir/img.jpg
-        convert $file $dir/img.jpg
-        cd $dir
-        find . -name 'img-[0-9].jpg'|awk -F "-" '{print "mv " $0 " " $1 "-0" $2}'|sh
+        echo $1
+        for file in $(ls $1)
+        do
+            if [[ $file =~ .*\.pdf ]]
+            then
+                dir=$1/${file%.pdf}
+                if [ -e $dir ]
+                then
+                    echo "$dir exists"
+                else
+                    echo "mkdir $dir"
+                    mkdir $dir
+                    echo convert $1/$file $dir/img.jpg
+                    convert $1/$file $dir/img.jpg
+                    cd $dir
+                    find . -name 'img-[0-9].jpg'|awk -F "-" '{print "mv " $0 " " $1 "-0" $2}'|sh
+                fi
+            fi
+        done
+    elif [[ $1 =~ .*\.pdf ]]
+    then
+        file=$1
+        dir=${file%.pdf}
+        if [ -e $dir ]
+        then
+            echo "$dir exists"
+        else
+            echo "mkdir $dir"
+            mkdir $dir
+            echo convert $file $dir/img.jpg
+            convert $file $dir/img.jpg
+            cd $dir
+            find . -name 'img-[0-9].jpg'|awk -F "-" '{print "mv " $0 " " $1 "-0" $2}'|sh
+        fi
     fi
-fi
+}
+
+pdftojpg $1

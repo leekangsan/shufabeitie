@@ -12,10 +12,12 @@
     "datejs": "^1.0.0-rc3",
     "debug": "~2.1.1",
     "express": "~4.12.2",
+    "image-size": "^0.3.5",
     "imagemagick-native": "^1.7.0",
     "jade": "~1.9.2",
     "lwip": "0.0.6",
     "morgan": "~1.5.1",
+    "pdfkit": "^0.7.1",
     "pm2": "^0.12.9",
     "serve-favicon": "~2.2.0"
   }

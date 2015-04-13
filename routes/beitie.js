@@ -1,7 +1,9 @@
 var fs = require('fs');
+var path = require('path');
 var date = require('datejs');
 var express = require('express');
 var thumbnail = require('../modules/thumbnail');
+var authenticate = require('../modules/users');
 var router = express.Router();
 
 // 同步读取info.json文件中数组内容，供页面显示及编辑使用
@@ -37,24 +39,29 @@ router.use('/:action', function(req, res, next) {
 });
 
 router.use(/(.*?)\/(.*?)\/info$/, function(req, res, next) {
-    console.log('user valified.');
-    next();
+    var user = {"id": 1, "name": "admin", "password": "password"};
+    if (authenticate(user)) {
+        next();
+    } else {
+        // TODO: redirect to login page
+        res.redirect('/');
+    }
 });
 
 // define the home page route
 router.get('/', function(req, res) {
-    var source = '/beitie/',
+    var source = 'beitie',
         folders = [],
-        files = fs.readdirSync('public' + source);
+        files = fs.readdirSync(path.join('public', source));
 
     files.forEach(function(item) {
-        var fileName = 'public' + source + item,
+        var fileName = path.join('public', source, item),
             stats = fs.statSync(fileName);
 
         if (stats.isDirectory()) {
             folders.push({
                 key: item,
-                value: source + item
+                value: item
             });
         }
     });
@@ -70,24 +77,24 @@ router.get('/', function(req, res) {
 // define the show beitie list route, 一级目录路径: /beitie/东晋-王羲之/
 router.get(/^\/([^\/]*)\/$/, function(req, res) {
     var source = decodeURIComponent(req.originalUrl),
-        path = 'public' + source,
+        file = path.join('public', source),
         folders = [];
 
-    // console.log(source, req.params[0]);
-    if (!fs.existsSync(path)) {
+    // console.log(source, file, req.params[0]);
+    if (!fs.existsSync(file)) {
         res.status(404).render('beitie/404', {
             url: source
         });
     } else {
-        var files = fs.readdirSync('public' + source);
+        var files = fs.readdirSync(path.join('public', source));
         files.forEach(function(item) {
-            var fileName = 'public' + source + item,
+            var fileName = path.join('public', source, item),
                 stats = fs.statSync(fileName);
 
             if (!/^\./.test(item) && stats.isDirectory()) {
                 folders.push({
                     key: item,
-                    value: source + item
+                    value: path.join(source, item)
                 });
             }
         });
@@ -103,18 +110,17 @@ router.get(/^\/([^\/]*)\/$/, function(req, res) {
 
 // define the show beitie details route, 二级碑帖内容显示路径: /beitie/北魏-五代-敦煌写经/转轮经/
 router.get(/(^\/.*?\/)(.*?)\/$/, function(req, res) {
-    var source = req.originalUrl,
-        path = decodeURIComponent(source),
+    var source = decodeURIComponent(req.originalUrl),
+        dir = path.join('public', source),
         info = 'info.json',
         current = decodeURIComponent(req.params[1]),
-        parentDirectory = 'public/beitie' + decodeURIComponent(req.params[0]),
-        dir = 'public' + path,
-        infoFile = dir + info,
+        parentDirectory = path.join('public', 'beitie', decodeURIComponent(req.params[0])),
+        infoFile = path.join(dir, info),
         infoExist = false,
         w1000Exist = false,
-        w1000Directory = dir + 'w1000/',
+        w1000Directory = path.join(dir, 'w1000'),
         w100Exist = false,
-        w100Directory = dir + 'w100/';
+        w100Directory = path.join(dir, 'w100');
 
     if (fs.existsSync(w100Directory)) {
         w100Exist = true;
@@ -132,7 +138,7 @@ router.get(/(^\/.*?\/)(.*?)\/$/, function(req, res) {
 
     // 找到上一个法帖和下一个法帖的文件夹位置
     var siblings = fs.readdirSync(parentDirectory).filter(function(item) {
-        var fileName = parentDirectory + item,
+        var fileName = path.join(parentDirectory, item),
             stats = fs.statSync(fileName);
 
         if (!/^\./.test(item) && stats.isDirectory()) {
@@ -158,12 +164,11 @@ router.get(/(^\/.*?\/)(.*?)\/$/, function(req, res) {
 
     var json = {
         info: {},
-        w100: w100Exist ? 'w100/' : '',
-        w1000: w1000Exist ? 'w1000/' : '',
         images: images,
         prev: siblings[prevIndex],
         next: siblings[nextIndex],
-        path: path
+        path100: path.join(source, (w100Exist ? 'w100' : '')),
+        path1000: path.join(source, (w1000Exist ? 'w1000' : ''))
     };
     if (infoExist) {
         var versions = syncReadInfoVersions(infoFile);
@@ -175,11 +180,10 @@ router.get(/(^\/.*?\/)(.*?)\/$/, function(req, res) {
 
 // edit info.json
 router.get(/(.*?)\/(.*?)\/info$/, function(req, res) {
-    var source = req.originalUrl,
-        path = decodeURIComponent(source.replace(/info/, '')),
-        dir = 'public' + path,
+    var source = decodeURIComponent(req.originalUrl.replace(/info/, '')),
+        dir = path.join('public', source),
         info = 'info.json',
-        infoFile = dir + info,
+        infoFile = path.join(dir, info),
         files = fs.readdirSync(dir),
         json = {
             name: "",
@@ -203,11 +207,10 @@ router.get(/(.*?)\/(.*?)\/info$/, function(req, res) {
 
 // save info.json
 router.post(/(.*?)\/(.*?)\/info$/, function(req, res) {
-    var source = req.originalUrl,
-        path = decodeURIComponent(source.replace(/info/, '')),
-        dir = 'public' + path,
+    var source = decodeURIComponent(req.originalUrl.replace(/info/, '')),
+        dir = path.join('public', source),
         info = 'info.json',
-        infoFile = dir + info,
+        infoFile = path.join(dir, info),
         versions = [],
         files = fs.readdirSync(dir);
 
@@ -216,15 +219,15 @@ router.post(/(.*?)\/(.*?)\/info$/, function(req, res) {
         versions = syncReadInfoVersions(infoFile);
     }
 
-    // 最新的版本放在info.json数组的最前面，并加入编辑时间戳和用户
-    req.body.user = 'admin';
+    // 最新的版本放在info.json数组的最前面，并加入编辑时间戳和用户user.id
+    req.body.user = 1;
     req.body.timestamp = new Date().getTime();
     versions.unshift(req.body);
     fs.open(infoFile, 'w+', function(err, fd) {
         var buf = new Buffer(JSON.stringify(versions));
         fs.writeSync(fd, buf, 0, buf.length, 0);
 
-        res.redirect(path);
+        res.redirect(source);
     });
 });
 
