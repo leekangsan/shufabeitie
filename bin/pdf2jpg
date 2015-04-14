@@ -15,10 +15,8 @@ function pdftojpg {
                 else
                     echo "mkdir $dir"
                     mkdir $dir
-                    echo convert $1/$file $dir/img.jpg
-                    convert $1/$file $dir/img.jpg
-                    cd $dir
-                    find . -name 'img-[0-9].jpg'|awk -F "-" '{print "mv " $0 " " $1 "-0" $2}'|sh
+                    echo convert -verbose -density 150 -trim $1/$file -quality 100 -sharpen 0x1.0 $dir/img-%03d.jpg
+                    convert -verbose -density 150 -trim $1/$file -quality 100 -sharpen 0x1.0 $dir/img-%03d.jpg
                 fi
             fi
         done
@@ -32,10 +30,8 @@ function pdftojpg {
         else
             echo "mkdir $dir"
             mkdir $dir
-            echo convert $file $dir/img.jpg
-            convert $file $dir/img.jpg
-            cd $dir
-            find . -name 'img-[0-9].jpg'|awk -F "-" '{print "mv " $0 " " $1 "-0" $2}'|sh
+            echo convert -verbose -density 150 -trim $file -quality 100 -sharpen 0x1.0 $dir/img-%02d.jpg
+            convert -verbose -density 150 -trim $file -quality 100 -sharpen 0x1.0 $dir/img-%02d.jpg
         fi
     fi
 }

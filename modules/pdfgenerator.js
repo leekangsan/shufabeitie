@@ -20,7 +20,7 @@ var generator = function(author) {
 
         var pdfname = path.join(author, paper + '.pdf');
         if (fs.existsSync(pdfname)) {
-            console.log(pdfname, ' 已经存在');
+            // console.log(pdfname, ' 已经存在');
             return false;
         }
 
@@ -37,11 +37,19 @@ var generator = function(author) {
         });
         for (var i = 0; i < images.length; i++) {
             var t = images[i],
-                imgpath = path.join(author, paper, 'w1000', t),
-                dimensions = sizeOf(imgpath),
+                imgpath = path.join(author, paper, 'w1000', t);
+
+            try {
+                var dimensions = sizeOf(imgpath),
                 imageWidth = dimensions.width,
                 imageHeight = dimensions.height;
-            console.log(imgpath, dimensions);
+                console.log(imgpath, dimensions);
+            } catch (e) {
+                imageWidth = 1000;
+                imageHeight = 1000;
+                console.error(e);
+            }
+
             if (imageWidth < 1000) {
                 imageHeight = 1000 / imageWidth * imageHeight;
                 imageWidth = 1000;
@@ -75,3 +83,5 @@ args.forEach(function(path) {
     console.log("begin generate pdf for path: 【" + path + "】");
     generator(path);
 });
+
+// for author in $(ls); do node ~/shufabeitie/modules/pdfgenerator.js $author; done
