@@ -12,37 +12,38 @@ block content
             li
                 a(href="../#{next}/") 下一法帖
 
-        #beitie-info-contaioner.alert.alert-info
-            .row
-                .col-md-6.col-sm-6
-                    .row
-                        .col-md-2.col-sm-4.field-name.
-                            名称
-                        .col-md-10.col-sm-8
-                            = info.name
-                    .row
-                        .col-md-2.col-sm-4.field-name.
-                            朝代
-                        .col-md-10.col-sm-8
-                            = info.dynasty
-                .col-md-6.col-sm-6
-                    .row
-                        .col-md-2.col-sm-4.field-name.
-                            书体
-                        .col-md-10.col-sm-8
-                            = info.category
-                    .row
-                        .col-md-2.col-sm-4.field-name.
-                            作者
-                        .col-md-10.col-sm-8
-                            = info.author
-            .row
-                .col-md-12.col-sm-12
-                    .row
-                        .col-md-2.col-sm-4.field-name.
-                            简介
-                        .col-md-10.col-sm-8
-                            = info.description
+        if info.name
+            #beitie-info-contaioner.alert.alert-info
+                .row
+                    .col-md-6.col-sm-6
+                        .row
+                            .col-md-2.col-sm-4.field-name.
+                                名称
+                            .col-md-10.col-sm-8
+                                = info.name
+                        .row
+                            .col-md-2.col-sm-4.field-name.
+                                朝代
+                            .col-md-10.col-sm-8
+                                = info.dynasty
+                    .col-md-6.col-sm-6
+                        .row
+                            .col-md-2.col-sm-4.field-name.
+                                书体
+                            .col-md-10.col-sm-8
+                                = info.category
+                        .row
+                            .col-md-2.col-sm-4.field-name.
+                                作者
+                            .col-md-10.col-sm-8
+                                = info.author
+                .row
+                    .col-md-12.col-sm-12
+                        .row
+                            .col-md-2.col-sm-4.field-name.
+                                简介
+                            .col-md-10.col-sm-8
+                                = info.description
 
         #beitie-imgs-container(data-img-size="#{images.length}")
             each file, index in images
@@ -65,10 +66,10 @@ block footer
         #footer-info
             ul#beitie-img-pagination
                 li(role="presentation")
+                    a#beitie-homepage.btn.btn-default(href="/") 首页
+                li(role="presentation")
                     a#beitie-img-home.btn.btn-default(href="#navbar-top") 顶部
                 li(role="presentation")
                     #beitie-img-blocks.btn.btn-default 平铺
 
-        script(src="/javascripts/jquery.blocksit.js")
-        script(src="/javascripts/jquery.lazyload.js")
         script(src="/javascripts/show.js")

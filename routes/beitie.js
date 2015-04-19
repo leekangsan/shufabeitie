@@ -8,9 +8,9 @@ var router = express.Router();
 
 // 同步读取info.json文件中数组内容，供页面显示及编辑使用
 // 保存时需要将最新的版本加到数组最前面
-var syncReadInfoVersions = function(infoFile) {
+var syncReadInfoVersions = function(infofile) {
     try {
-        var data = fs.readFileSync(infoFile, {
+        var data = fs.readFileSync(infofile, {
             encoding: 'utf8'
         });
         return JSON.parse(data);
@@ -20,31 +20,12 @@ var syncReadInfoVersions = function(infoFile) {
     }
 };
 
-// a middleware with no mount path, gets executed for every request to the router
-router.use(function(req, res, next) {
-    console.log('Time:', new Date().toString("yyyy-MM-dd HH:mm:ss"));
-    next();
-});
-
-// a middleware sub-stack shows request info for any type of HTTP request
-router.use('/:action', function(req, res, next) {
-    console.log('Request URL:', req.originalUrl);
-    next();
-}, function(req, res, next) {
-    console.log('Request Type:', req.method);
-    next();
-}, function(req, res, next) {
-    console.log('Action is', req.params.action);
-    next();
-});
-
 router.use(/(.*?)\/(.*?)\/info$/, function(req, res, next) {
-    var user = {"id": 1, "name": "admin", "password": "password"};
+    var user = req.session.user;
     if (authenticate(user)) {
         next();
     } else {
-        // TODO: redirect to login page
-        res.redirect('/');
+        res.redirect('/beitie/login?url=' + req.originalUrl);
     }
 });
 
@@ -67,16 +48,34 @@ router.get('/', function(req, res) {
     });
 
     var data = {
-        title: '书法碑帖列表',
+        title: '书法碑帖',
         folders: folders
     };
 
     res.render('beitie/index', data);
 });
 
+router.get('/login', function(req, res) {
+    res.render('beitie/login');
+});
+
+router.post('/login', function(req, res) {
+    var user = authenticate(req.body);
+    if (user) {
+        // console.log(user, req.query.url);
+        req.session.user = user;
+        if (req.query.url) {
+            res.redirect(req.query.url);
+        }
+    } else {
+        res.render('beitie/login');
+    }
+});
+
 // define the show beitie list route, 一级目录路径: /beitie/东晋-王羲之/
 router.get(/^\/([^\/]*)\/$/, function(req, res) {
     var source = decodeURIComponent(req.originalUrl),
+        author = decodeURIComponent(req.params[0]),
         file = path.join('public', source),
         folders = [];
 
@@ -100,7 +99,7 @@ router.get(/^\/([^\/]*)\/$/, function(req, res) {
         });
 
         var data = {
-            title: '书法碑帖列表',
+            title: path.join('书法碑帖', author),
             folders: folders
         };
 
@@ -109,31 +108,32 @@ router.get(/^\/([^\/]*)\/$/, function(req, res) {
 });
 
 // define the show beitie details route, 二级碑帖内容显示路径: /beitie/北魏-五代-敦煌写经/转轮经/
-router.get(/(^\/.*?\/)(.*?)\/$/, function(req, res) {
+router.get(/^\/(.*?)\/(.*?)\/$/, function(req, res) {
     var source = decodeURIComponent(req.originalUrl),
         dir = path.join('public', source),
         info = 'info.json',
-        current = decodeURIComponent(req.params[1]),
-        parentDirectory = path.join('public', 'beitie', decodeURIComponent(req.params[0])),
-        infoFile = path.join(dir, info),
-        infoExist = false,
-        w1000Exist = false,
+        author = decodeURIComponent(req.params[0]),
+        paper = decodeURIComponent(req.params[1]),
+        parentDirectory = path.join('public', 'beitie', author),
+        infofile = path.join(dir, info),
+        infoexist = false,
+        w1000exist = false,
         w1000Directory = path.join(dir, 'w1000'),
-        w100Exist = false,
+        w100exist = false,
         w100Directory = path.join(dir, 'w100');
 
     if (fs.existsSync(w100Directory)) {
-        w100Exist = true;
+        w100exist = true;
     } else {
         thumbnail(100, dir);
     }
     if (fs.existsSync(w1000Directory)) {
-        w1000Exist = true;
+        w1000exist = true;
     } else {
         thumbnail(1000, dir);
     }
-    if (fs.existsSync(infoFile)) {
-        infoExist = true;
+    if (fs.existsSync(infofile)) {
+        infoexist = true;
     }
 
     // 找到上一个法帖和下一个法帖的文件夹位置
@@ -147,7 +147,7 @@ router.get(/(^\/.*?\/)(.*?)\/$/, function(req, res) {
     });
 
     var length = siblings.length,
-        index = siblings.indexOf(current),
+        index = siblings.indexOf(paper),
         prevIndex = index - 1,
         nextIndex = index + 1;
     if (prevIndex < 0) {
@@ -157,21 +157,22 @@ router.get(/(^\/.*?\/)(.*?)\/$/, function(req, res) {
         nextIndex = 0;
     }
 
-    var files = fs.readdirSync(w100Exist ? w100Directory : dir);
+    var files = fs.readdirSync(w100exist ? w100Directory : dir);
     var images = files.filter(function(t) {
-        return /\.jpg/i.test(t);
+        return /\.(jpg|png)/i.test(t);
     });
 
     var json = {
         info: {},
+        title: path.join('书法碑帖', author, paper),
         images: images,
         prev: siblings[prevIndex],
         next: siblings[nextIndex],
-        path100: path.join(source, (w100Exist ? 'w100' : '')),
-        path1000: path.join(source, (w1000Exist ? 'w1000' : ''))
+        path100: path.join(source, (w100exist ? 'w100' : '')),
+        path1000: path.join(source, (w1000exist ? 'w1000' : ''))
     };
-    if (infoExist) {
-        var versions = syncReadInfoVersions(infoFile);
+    if (infoexist) {
+        var versions = syncReadInfoVersions(infofile);
         json.info = versions[0] || {};
         json.info.text = json.info.text.replace(/\n+/g, '<p>');
     }
@@ -183,7 +184,7 @@ router.get(/(.*?)\/(.*?)\/info$/, function(req, res) {
     var source = decodeURIComponent(req.originalUrl.replace(/info/, '')),
         dir = path.join('public', source),
         info = 'info.json',
-        infoFile = path.join(dir, info),
+        infofile = path.join(dir, info),
         files = fs.readdirSync(dir),
         json = {
             name: "",
@@ -196,7 +197,7 @@ router.get(/(.*?)\/(.*?)\/info$/, function(req, res) {
         };
 
     if (files.indexOf(info) != -1) {
-        var versions = syncReadInfoVersions(infoFile);
+        var versions = syncReadInfoVersions(infofile);
         json = versions[0] || {};
     }
 
@@ -210,20 +211,20 @@ router.post(/(.*?)\/(.*?)\/info$/, function(req, res) {
     var source = decodeURIComponent(req.originalUrl.replace(/info/, '')),
         dir = path.join('public', source),
         info = 'info.json',
-        infoFile = path.join(dir, info),
+        infofile = path.join(dir, info),
         versions = [],
         files = fs.readdirSync(dir);
 
     // exists info.json
     if (files.indexOf(info) != -1) {
-        versions = syncReadInfoVersions(infoFile);
+        versions = syncReadInfoVersions(infofile);
     }
 
     // 最新的版本放在info.json数组的最前面，并加入编辑时间戳和用户user.id
-    req.body.user = 1;
+    req.body.user = req.session.user.id;
     req.body.timestamp = new Date().getTime();
     versions.unshift(req.body);
-    fs.open(infoFile, 'w+', function(err, fd) {
+    fs.open(infofile, 'w+', function(err, fd) {
         var buf = new Buffer(JSON.stringify(versions));
         fs.writeSync(fd, buf, 0, buf.length, 0);
 

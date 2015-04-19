@@ -23,13 +23,13 @@ function thumbnail {
                 # width=$(identify -format "%w" $file)
                 if [ ! -e $dir100/$file ]
                 then
-                    echo convert $file -thumbnail 100\> $dir100/$file
+                    echo convert $1/$file -thumbnail 100\> $1/$dir100/$file
                     convert $file -thumbnail 100\> $dir100/$file
                 fi
 
                 if [ ! -e $dir1000/$file ]
                 then
-                    echo convert $file -thumbnail 1000\> $dir1000/$file
+                    echo convert $1/$file -thumbnail 1000\> $1/$dir1000/$file
                     convert $file -thumbnail 1000\> $dir1000/$file
                 fi
             fi
@@ -38,23 +38,33 @@ function thumbnail {
 }
 
 
-dirnameofbin=$(dirname $0)
-currentpwd=$(pwd)
-beitie=$currentpwd/${dirnameofbin%bin}public/beitie
-echo create thumbnails for directory $beitie
-if [ -d $beitie ]
+if [ $# -eq 0 ]
 then
-    for author in $(ls $beitie)
-    do
-        for paper in $(ls $beitie/$author)
+    dirnameofbin=$(dirname $0)
+    currentpwd=$(pwd)
+    beitie=$currentpwd/${dirnameofbin%bin}public/beitie
+    echo create thumbnails for directory $beitie
+    if [ -d $beitie ]
+    then
+        for author in $(ls $beitie)
         do
-            if [ -d $beitie/$author/$paper ]
-            then
-                # echo create thumbnail for $beitie/$author/$paper
-                thumbnail $beitie/$author/$paper
-            fi
+            for paper in $(ls $beitie/$author)
+            do
+                if [ -d $beitie/$author/$paper ]
+                then
+                    # echo create thumbnail for $beitie/$author/$paper
+                    thumbnail $beitie/$author/$paper
+                fi
+            done
         done
-    done
 
-    echo create finished!
+        echo create finished!
+    fi
+else
+    if [ -e $1 ]
+    then
+        echo thumbnail $1
+        thumbnail $1
+    fi
 fi
+

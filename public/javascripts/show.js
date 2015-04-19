@@ -33,8 +33,6 @@ $(function() {
         window.location.href = '#' + id;
     });
 
-    $('.beitie-lazy-img').lazyload({
-        load: blocks
-    });
+    $('.beitie-lazy-img').lazyload();
 
 });

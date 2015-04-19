@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var faties = require('../config/index');
 
 router.use(function(err, req, res, next) {
     console.error(err.stack);
@@ -8,11 +9,27 @@ router.use(function(err, req, res, next) {
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
+    var random = [], size = faties.length - 1;
+    for (var i = 0; i <= size && i < 12; i++) {
+        var pos = Math.round(Math.random() * size);
+        random.push(faties[pos]);
+    }
     var data = {
-        title: 'list of bei tie'
+        title: '书法碑帖',
+        faties: random
     };
 
     res.render('index', data);
+});
+
+router.get('/more', function(req, res, next) {
+    var random = [], size = faties.length - 1;
+    for (var i = 0; i <= size && i < 3; i++) {
+        var pos = Math.round(Math.random() * size);
+        random.push(faties[pos]);
+    }
+
+    res.json(random);
 });
 
 router.get('/epoch', function(req, res, next) {

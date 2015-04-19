@@ -1,32 +1,32 @@
 #! /bin/sh
 
 function renamepdf {
-	if [ $# -eq 0 ]
-	then
-		echo "first parameter should be a directory"
-	elif [ ! -d $1 ]
-	then
-		echo "parameter 1 should be a directory"
-	else
-		for file in $(ls $1)
-		do
-            old_file=$1/$file
-			if [[ $file =~ [【《〈（—:：·，。、「」［『』］）〉》】[:blank:][:space:]\\\+] ]]
-			then
-                new_file=$1/${file//[【《〈（—:：·，。、「」［『』］）〉》】[:blank:][:space:]\\\+]/}
-                echo "rename $old_file to $new_file"
-				mv $old_file $new_file
+if [ $# -eq 0 ]
+then
+    echo "first parameter should be a directory"
+elif [ ! -d $1 ]
+then
+    echo "parameter 1 should be a directory"
+else
+    for file in $(ls $1)
+    do
+        old_file=$1/$file
+        if [[ $file =~ [【《〈（—:：·，。、「」［『』］）〉》】[:blank:][:space:]\\\+] ]]
+        then
+            new_file=$1/${file//[【《〈（—:：·，。、「」［『』］）〉》】[:blank:][:space:]\\\+]/}
+            echo "rename $old_file to $new_file"
+            mv $old_file $new_file
 
-                if [ -d $new_file ]
-                then
-                    renamepdf $new_file
-                fi
-            elif [ -d $old_file ]
+            if [ -d $new_file ]
             then
-                renamepdf $old_file
-			fi
-		done
-	fi
+                renamepdf $new_file
+            fi
+        elif [ -d $old_file ]
+        then
+            renamepdf $old_file
+        fi
+    done
+fi
 }
 
 

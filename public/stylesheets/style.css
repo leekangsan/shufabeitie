@@ -28,7 +28,7 @@ h4.beitie-intro {
     position: relative;
 }
 .beitie-img-container {
-    min-height: 100px;
+    min-height: 50px;
     -webkit-transition: top 1s ease, left 1s ease;
     -moz-transition: top 1s ease, left 1s ease;
     -o-transition: top 1s ease, left 1s ease;
@@ -55,8 +55,8 @@ h4.beitie-intro {
     padding: 0;
     bottom: 0;
     left: 50%;
-    width: 160px;
-    margin: 0 0 0 -70px;
+    width: 265px;
+    margin: 0 0 0 -130px;
 }
 #beitie-img-pagination li {
     float: left;
@@ -78,4 +78,22 @@ h4.beitie-intro {
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+}
+.form-signin {
+    max-width: 330px;
+    margin: 0 auto;
+}
+.form-signin .form-signin-heading, #signin-name, #signin-password {
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+#signin-submit {
+    margin-bottom: 20px;
+}
+.form-signin .form-control {
+    position: relative;
+    height: auto;
+    box-sizing: border-box;
+    padding: 10px;
+    font-size: 16px;
 }

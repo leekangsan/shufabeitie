@@ -1,6 +1,14 @@
 extends layout
 
 block content
-    #beities.container
-        h1
-            a(href="/beitie/") beitie
+    #beities.container-fluid
+
+        #beitie-imgs-container
+            each fatie, index in faties
+                .thumbnail.beitie-img-container
+                    img.img-responsive.beitie-img.beitie-lazy-img(src="/#{fatie.beitie}/w100/#{fatie.cover}", data-original="/#{fatie.beitie}/w1000/#{fatie.cover}")
+                    .caption
+                        .text-center
+                            a(target="_blank", href="#{fatie.beitie}")= fatie.name
+
+        script(src='/javascripts/index.js')

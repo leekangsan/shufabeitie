@@ -1,0 +1,76 @@
+#! /bin/sh
+
+function renamebeitie {
+    if [ -d $1 ]
+    then
+        cd $1
+        i=0
+        for file in $(ls)
+        do
+            if [[ $file =~ .*\.png ]]
+            then
+                target=fatie-$i.png
+                if [ $i -lt 10 ]
+                then
+                    target=fatie-00$i.png
+                elif [ $i -lt 100 ]
+                then
+                    target=fatie-0$i.png
+                fi
+                if [ $target != $file ]
+                then
+                    echo mv $file $target
+                    mv $file $target
+
+                    dir100=w100
+                    if [ -e $dir100 ]
+                    then
+                        echo mv w100/$file w100/$target
+                        mv w100/$file w100/$target
+                    fi
+
+                    dir1000=w1000
+                    if [ -e $dir1000 ]
+                    then
+                        echo mv w1000/$file w1000/$target
+                        mv w1000/$file w1000/$target
+                    fi
+                fi
+
+                (( i=i+1 ))
+            fi
+        done
+    fi
+}
+
+
+if [ $# -eq 0 ]
+then
+    dirnameofbin=$(dirname $0)
+    currentpwd=$(pwd)
+    beitie=$currentpwd/${dirnameofbin%bin}public/beitie
+    echo rename beitie for directory $beitie
+    if [ -d $beitie ]
+    then
+        for author in $(ls $beitie)
+        do
+            for paper in $(ls $beitie/$author)
+            do
+                if [ -d $beitie/$author/$paper ]
+                then
+                    echo rename images for $beitie/$author/$paper
+                    renamebeitie $beitie/$author/$paper
+                fi
+            done
+        done
+
+        echo rename png finished!
+    fi
+else
+    if [ -d $1 ]
+    then
+        echo renamebeitie images for $1
+        renamebeitie $1
+    fi
+fi
+

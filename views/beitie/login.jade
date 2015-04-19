@@ -1,0 +1,13 @@
+extends ../layout
+
+block content
+
+    #beities.container
+
+        form#login-form.form-signin(method="post")
+            h2.form-signin-heading Please sign in
+            label.sr-only(for="signin-name") name
+            input#signin-name.form-control(type="text", name="name", placeholder="username", required, autofocus)
+            label.sr-only(for="signin-password") password
+            input#signin-password.form-control(type="password", name="password", placeholder="password", required)
+            input#signin-submit.btn.btn-lg.btn-primary.btn-block(type="submit", value="Sign in")
