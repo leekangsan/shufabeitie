@@ -4,21 +4,8 @@ var date = require('datejs');
 var express = require('express');
 var thumbnail = require('../modules/thumbnail');
 var authenticate = require('../modules/users');
+var jsonarrayutils = require('../modules/jsonarrayutils');
 var router = express.Router();
-
-// 同步读取info.json文件中数组内容，供页面显示及编辑使用
-// 保存时需要将最新的版本加到数组最前面
-var syncReadInfoVersions = function(infofile) {
-    try {
-        var data = fs.readFileSync(infofile, {
-            encoding: 'utf8'
-        });
-        return JSON.parse(data);
-    } catch (e) {
-        console.error(e);
-        return [];
-    }
-};
 
 router.use(/(.*?)\/(.*?)\/info$/, function(req, res, next) {
     var user = req.session.user;
@@ -63,9 +50,12 @@ router.post('/login', function(req, res) {
     var user = authenticate(req.body);
     if (user) {
         // console.log(user, req.query.url);
-        req.session.user = user;
+        req.body.id = user.id;
+        req.session.user = req.body;
         if (req.query.url) {
             res.redirect(req.query.url);
+        } else {
+            res.redirect('/');
         }
     } else {
         res.render('beitie/login');
@@ -172,7 +162,7 @@ router.get(/^\/(.*?)\/(.*?)\/$/, function(req, res) {
         path1000: path.join(source, (w1000exist ? 'w1000' : ''))
     };
     if (infoexist) {
-        var versions = syncReadInfoVersions(infofile);
+        var versions = jsonarrayutils.read(infofile);
         json.info = versions[0] || {};
         json.info.text = json.info.text.replace(/\n+/g, '<p>');
     }
@@ -197,7 +187,7 @@ router.get(/(.*?)\/(.*?)\/info$/, function(req, res) {
         };
 
     if (files.indexOf(info) != -1) {
-        var versions = syncReadInfoVersions(infofile);
+        var versions = jsonarrayutils.read(infofile);
         json = versions[0] || {};
     }
 
@@ -212,24 +202,17 @@ router.post(/(.*?)\/(.*?)\/info$/, function(req, res) {
         dir = path.join('public', source),
         info = 'info.json',
         infofile = path.join(dir, info),
-        versions = [],
-        files = fs.readdirSync(dir);
+        versions = jsonarrayutils.read(infofile);
 
-    // exists info.json
-    if (files.indexOf(info) != -1) {
-        versions = syncReadInfoVersions(infofile);
-    }
-
+    // 同步读取info.json文件中数组内容，供页面显示及编辑使用
     // 最新的版本放在info.json数组的最前面，并加入编辑时间戳和用户user.id
+    // 保存时需要将最新的版本加到数组最前面
     req.body.user = req.session.user.id;
     req.body.timestamp = new Date().getTime();
     versions.unshift(req.body);
-    fs.open(infofile, 'w+', function(err, fd) {
-        var buf = new Buffer(JSON.stringify(versions));
-        fs.writeSync(fd, buf, 0, buf.length, 0);
+    jsonarrayutils.write(infofile, versions);
 
-        res.redirect(source);
-    });
+    res.redirect(source);
 });
 
 module.exports = router;

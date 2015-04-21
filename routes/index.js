@@ -1,6 +1,8 @@
 var express = require('express');
-var router = express.Router();
+var path = require('path');
 var faties = require('../config/index');
+var router = express.Router();
+var jsonarrayutils = require('../modules/jsonarrayutils');
 
 router.use(function(err, req, res, next) {
     console.error(err.stack);
@@ -23,45 +25,34 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/more', function(req, res, next) {
-    var random = [], size = faties.length - 1;
+    req.session.more = (req.session.more || 0) + 1;
+    var more = [], slice = faties.slice(req.session.more * 3), size = slice.length - 1;
+    if (size < 3) {
+        req.session.more = 0;
+    }
     for (var i = 0; i <= size && i < 3; i++) {
-        var pos = Math.round(Math.random() * size);
-        random.push(faties[pos]);
+        more.push(slice[i]);
     }
 
-    res.json(random);
+    res.json(more);
 });
 
-router.get('/epoch', function(req, res, next) {
+router.get('/upload', function(req, res, next) {
     var data = {
-        title: 'epoch of bei tie'
+        title: '书法碑帖/访客上传'
     };
 
-    res.render('epoch', data);
+    res.render('upload', data);
 });
 
-router.get('/calligraphist', function(req, res, next) {
-    var data = {
-        title: 'calligraphist of bei tie'
-    };
+router.post('/upload', function(req, res, next) {
+    var file = './uploads/data.json';
+    var json = jsonarrayutils.read(file);
+    req.body.datetime = new Date().getTime();
+    json.unshift(req.body);
+    jsonarrayutils.write(file, json);
 
-    res.render('calligraphist', data);
-});
-
-router.get('/paper', function(req, res, next) {
-    var data = {
-        title: 'paper of bei tie'
-    };
-
-    res.render('paper', data);
-});
-
-router.get('/search', function(req, res, next) {
-    var data = {
-        title: 'search of bei tie'
-    };
-
-    res.render('search', data);
+    res.redirect('/');
 });
 
 module.exports = router;

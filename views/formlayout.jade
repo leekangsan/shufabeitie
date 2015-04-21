@@ -1,0 +1,24 @@
+doctype html
+html
+  head
+    meta(charset='UTF-8')
+    title= title
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='viewport', content='width=device-width, initial-scale=1, maximum-scale=1')
+    meta(name='description', content='中国史上各朝各代书法名家的书法碑帖')
+
+    link(rel='stylesheet', href='/bootstrap-3.3.4/css/bootstrap.css')
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    script(src='/javascripts/jquery-1.11.2.js')
+    script(src='/bootstrap-3.3.4/js/bootstrap.js')
+    script(src="/javascripts/jquery.blocksit.js")
+    script(src="/javascripts/jquery.lazyload.js")
+  body
+    include ./includes/nav.jade
+
+    block content
+
+    block footer
+        footer#footer
+            #footer-info &copy; 2015 www.shufabeitie.com 所有内容来源于网络
+

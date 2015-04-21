@@ -1,8 +1,22 @@
-extends layout
+extends formlayout
 
 block content
 
-    #beities.container
-        form.form.form-inline.alert.alert-info
-            input.form-control(type="text")
-            input.form-control(type="submit", value="搜索")
+    #beities.container-fluid
+        form.form.alert.alert-info(method='post')
+            .row
+                .col-md-6.col-sm-12
+                    .input-group
+                        input.form-control(type="text", name="keywords")
+                        span.input-group-btn
+                            input.btn.btn-default(type="submit", value="搜索")
+
+        #beitie-imgs-container
+            each fatie, index in faties
+                .thumbnail.beitie-img-container
+                    img.img-responsive.beitie-img.beitie-lazy-img(src="/#{fatie.beitie}/w100/#{fatie.cover}", data-original="/#{fatie.beitie}/w1000/#{fatie.cover}")
+                    .caption
+                        .text-center
+                            a(target="_blank", href="/#{fatie.beitie}")= fatie.name
+
+        script(src='/javascripts/index.js')

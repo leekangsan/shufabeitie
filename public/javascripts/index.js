@@ -17,22 +17,27 @@ $(function() {
 
     $('.beitie-lazy-img').lazyload({ load: blocks });
 
-    var loading = false, limit = 0, container = $('#beitie-imgs-container');
+    var loading = false, limit = 0, container = $('#beitie-imgs-container'), href = window.location.href;
+    var max = 10, more = '/more';
+    if (/search/i.test(window.location.href)) {
+        max = 15;
+        more = '/search/more';
+    }
     $(window).on('scroll.lazyload', function() {
         var bottom = $(document).height() - $(this).scrollTop() - $(this).height();
         if (bottom < 400) {
-            if (limit > 10) {
+            if (limit > max) {
                 $(window).unbind('scroll.lazyload');
             }
             if (!loading) {
                 limit = limit + 1;
                 loading = true;
-                $.getJSON('more').done(function(json) {
+                $.getJSON(more).done(function(json) {
                     // console.log(json);
                     $.each(json, function() {
                         var coverContainer = $('<div class="thumbnail beitie-img-container"></div>');
                         coverContainer.append('<img src="/' + this.beitie + '/w100/' + this.cover + '" data-original="/' + this.beitie + '/w1000/' + this.cover + '" class="img-responsive beitie-img ajax-lazy-img">');
-                        coverContainer.append('<div class="caption"><div class="text-center"><a target="_blank" href="' + this.beitie + '">' + this.name + '</a></div></div>');
+                        coverContainer.append('<div class="caption"><div class="text-center"><a target="_blank" href="/' + this.beitie + '">' + this.name + '</a></div></div>');
                         container.append(coverContainer);
                     });
                     $('.ajax-lazy-img').lazyload({ load: blocks });

@@ -8,6 +8,7 @@ var session = require('cookie-session');
 
 var routes = require('./routes/index');
 var beitie = require('./routes/beitie');
+var search = require('./routes/search');
 var sessionConfig = require('./config/session-config');
 
 var app = express();
@@ -27,6 +28,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/beitie', beitie);
+app.use('/search', search);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
