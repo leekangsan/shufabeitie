@@ -4,46 +4,16 @@ block content
 
     #beities.container-fluid
 
-        ol.breadcrumb
+        ol.breadcrumb.alert.alert-info
             li
-                a(href="../") 上一级目录
+                a(href="../")= author
             li
                 a(href="../#{prev}/") 上一法帖
             li
                 a(href="../#{next}/") 下一法帖
-
-        if info.name
-            #beitie-info-contaioner.alert.alert-info
-                .row
-                    .col-md-6.col-sm-6
-                        .row
-                            .col-md-2.col-sm-4.field-name.
-                                名称
-                            .col-md-10.col-sm-8
-                                = info.name
-                        .row
-                            .col-md-2.col-sm-4.field-name.
-                                朝代
-                            .col-md-10.col-sm-8
-                                = info.dynasty
-                    .col-md-6.col-sm-6
-                        .row
-                            .col-md-2.col-sm-4.field-name.
-                                书体
-                            .col-md-10.col-sm-8
-                                = info.category
-                        .row
-                            .col-md-2.col-sm-4.field-name.
-                                作者
-                            .col-md-10.col-sm-8
-                                = info.author
-                .row
-                    .col-md-12.col-sm-12
-                        .row
-                            .col-md-2.col-sm-4.field-name.
-                                简介
-                            .col-md-10.col-sm-8
-                                = info.description
+            li.paper-name-container
+                span= paper
+                a.paper-name(href="./info")= "\u00B6"
 
         #beitie-imgs-container(data-img-size="#{images.length}")
             each file, index in images
@@ -56,8 +26,6 @@ block content
 
         - if (info.text)
             .alert.alert-info
-                h4.beitie-intro.
-                    法帖介绍
                 #beitie-text-show
                     != info.text
 

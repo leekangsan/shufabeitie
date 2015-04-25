@@ -6,9 +6,9 @@ block content
         #beitie-imgs-container
             each fatie, index in faties
                 .thumbnail.beitie-img-container
-                    img.img-responsive.beitie-img.beitie-lazy-img(src="/#{fatie.beitie}/w100/#{fatie.cover}", data-original="/#{fatie.beitie}/w1000/#{fatie.cover}")
+                    img.img-responsive.beitie-img.beitie-lazy-img(src="/#{fatie.dir}/w100/#{fatie.cover}", data-original="/#{fatie.dir}/w1000/#{fatie.cover}")
                     .caption
                         .text-center
-                            a(target="_blank", href="#{fatie.beitie}")= fatie.name
+                            a(target="_blank", href="#{fatie.dir}")= fatie.name
 
         script(src='/javascripts/index.js')

@@ -1,3 +1,4 @@
+var fs = require('fs');
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -9,7 +10,16 @@ var session = require('cookie-session');
 var routes = require('./routes/index');
 var beitie = require('./routes/beitie');
 var search = require('./routes/search');
-var sessionConfig = require('./config/session-config');
+
+var sessionConfig = {
+    "name": "sessionid",
+    "secret": "shufabeitie",
+    "maxAge": 21600000
+};
+var sessionConfigFile = './config/session-config';
+if (fs.existsSync(sessionConfigFile)) {
+    sessionConfig = require(sessionConfigFile);
+}
 
 var app = express();
 
@@ -21,7 +31,9 @@ app.set('view engine', 'jade');
 //app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({
+    extended: false
+}));
 app.use(cookieParser());
 app.use(session(sessionConfig));
 app.use(express.static(path.join(__dirname, 'public')));

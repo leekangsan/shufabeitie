@@ -33,7 +33,7 @@ authors.forEach(function(author) {
             return /\.jpg/i.test(t);
         });
         if (images.length) {
-            json.push({size: images.length, author: author, name: paper, cover: images[0], beitie: path.join('beitie', author, paper)});
+            json.push({size: images.length, author: author, name: paper, cover: images[0], dir: path.join('beitie', author, paper)});
         } else {
             // console.log(dir, ' has no jpg images.');
         }
@@ -47,6 +47,7 @@ var indexfile = path.join(beitie, '..', '..', 'config', 'index.json');
 fs.open(indexfile, 'w+', function(err, fd) {
     var buf = new Buffer(indexes);
     fs.writeSync(fd, buf, 0, buf.length, 0);
+    fs.closeSync(fd);
 });
 
 console.log(json.length);

@@ -2,6 +2,7 @@ var fs = require('fs');
 var path = require('path');
 var date = require('datejs');
 var express = require('express');
+var faties = require('../config/index');
 var thumbnail = require('../modules/thumbnail');
 var authenticate = require('../modules/users');
 var jsonarrayutils = require('../modules/jsonarrayutils');
@@ -156,6 +157,8 @@ router.get(/^\/(.*?)\/(.*?)\/$/, function(req, res) {
         info: {},
         title: path.join('书法碑帖', author, paper),
         images: images,
+        paper: paper,
+        author: author,
         prev: siblings[prevIndex],
         next: siblings[nextIndex],
         path100: path.join(source, (w100exist ? 'w100' : '')),
@@ -164,36 +167,47 @@ router.get(/^\/(.*?)\/(.*?)\/$/, function(req, res) {
     if (infoexist) {
         var versions = jsonarrayutils.read(infofile);
         json.info = versions[0] || {};
-        json.info.text = json.info.text.replace(/\n+/g, '<p>');
+        json.info.text = '<p>' + json.info.text.replace(/\n+/g, '<p>');
     }
     res.render('beitie/show', json);
 });
 
 // edit info.json
-router.get(/(.*?)\/(.*?)\/info$/, function(req, res) {
+router.get(/^\/(.*?)\/(.*?)\/info$/, function(req, res) {
     var source = decodeURIComponent(req.originalUrl.replace(/info/, '')),
-        dir = path.join('public', source),
         info = 'info.json',
+        dir = path.join('public', source),
+        author = decodeURIComponent(req.params[0]),
+        paper = decodeURIComponent(req.params[1]),
         infofile = path.join(dir, info),
-        files = fs.readdirSync(dir),
-        json = {
-            name: "",
-            dynasty: "东晋唐宋元明清代",
-            category: "楷行草隶篆书",
-            type: "纸本墨迹拓本",
-            text: "",
-            author: "",
-            description: ""
-        };
+        versions = jsonarrayutils.read(infofile),
+        infojson = versions[0] || {name: '', text: ''};
 
-    if (files.indexOf(info) != -1) {
-        var versions = jsonarrayutils.read(infofile);
-        json = versions[0] || {};
+    var length = faties.length;
+    for (var index = 0; index < length; index++) {
+        var fatie = faties[index];
+        if (fatie.name == paper) {
+            break;
+        }
     }
 
-    res.render('beitie/info', {
-        info: json
-    });
+    var prevIndex = index - 1,
+        nextIndex = index + 1;
+    if (prevIndex < 0) {
+        prevIndex = length - 1;
+    }
+    if (nextIndex === length) {
+        nextIndex = 0;
+    }
+
+    var json = {
+        info: infojson,
+        paper: paper,
+        author: author,
+        prev: faties[prevIndex],
+        next: faties[nextIndex]
+    };
+    res.render('beitie/info', json);
 });
 
 // save info.json
@@ -204,11 +218,14 @@ router.post(/(.*?)\/(.*?)\/info$/, function(req, res) {
         infofile = path.join(dir, info),
         versions = jsonarrayutils.read(infofile);
 
-    // 同步读取info.json文件中数组内容，供页面显示及编辑使用
-    // 最新的版本放在info.json数组的最前面，并加入编辑时间戳和用户user.id
     // 保存时需要将最新的版本加到数组最前面
+    // 删除中英文空格
+    req.body.text = req.body.text.replace(/[ 　]/g, '').replace(/[\r\n]+/g, '\n');
+    // 最新的版本放在info.json数组的最前面，并加入编辑时间戳和用户user.id
     req.body.user = req.session.user.id;
     req.body.timestamp = new Date().getTime();
+    // 内容是否已经可以发布
+    req.body.verified = true;
     versions.unshift(req.body);
     jsonarrayutils.write(infofile, versions);
 

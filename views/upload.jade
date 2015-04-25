@@ -3,13 +3,13 @@ extends formlayout
 block content
 
     #beities.container-fluid
-        form.form.alert.alert-info(method='post')
-            .row
-                .form-group.col-md-6.col-sm-12
-                    input.form-control.input(type="text", name="url", value="", placeholder="输入法帖下载地址，如新浪微盘，百度云盘地址")
+        .alert.alert-info
+            输入法帖下载地址，如新浪微盘，百度云盘地址，文件可以是压缩的zip/rar文件，也可以是pdf文件，文件里的图片尽量不要有水印，且足够清晰。
+
+        form.form.alert.alert-warning(method='post')
             .row
                 .col-md-6.col-sm-12
                     .input-group
-                        input.form-control.input(type="text", name="name", value="", placeholder="法帖名称")
+                        input.form-control.input(type="text", name="url", value="", placeholder="输入法帖下载地址")
                         span.input-group-btn
                             input.btn.btn-default.btn(type="submit", value="保存")

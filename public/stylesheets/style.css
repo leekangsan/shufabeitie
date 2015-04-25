@@ -5,13 +5,10 @@ html {
     border-radius: 0;
 }
 #beitie-text {
-    width: 95%;
-    height: 135px;
+    height: 260px;
 }
 #beitie-text-show {
     text-indent: 2em;
-}
-#beities {
 }
 .beitie-info-row {
     margin-top: 5px;
@@ -38,14 +35,15 @@ h4.beitie-intro {
     border-radius: 4px;
     width: 100%;
 }
-.field-name {
-    text-align: right;
-    display: block;
-    float: left;
+.paper-name {
+    visibility: hidden;
     color: #999;
-    width: 78px;
-    padding: 0 5px 0 12px;
-    font-weight: bold;
+    text-decoration: none;
+}
+.paper-name:hover {
+    visibility: visible;
+    color: #999;
+    text-decoration: none;
 }
 #beitie-img-pagination {
     position: fixed;
@@ -64,10 +62,6 @@ h4.beitie-intro {
 #beitie-img-pagination li + li {
     margin-left: 50px;
 }
-#load-finished {
-    font-size: 18px;
-    margin-bottom: 20px;
-}
 #footer-info {
     background: #000;
     height: 50px;
@@ -81,7 +75,7 @@ h4.beitie-intro {
 }
 .form-signin {
     max-width: 330px;
-    margin: 0 auto;
+    margin: 0 auto 20px auto;
 }
 .form-signin .form-signin-heading, #signin-name, #signin-password {
     margin-top: 0;

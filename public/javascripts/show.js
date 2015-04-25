@@ -1,4 +1,10 @@
 $(function() {
+    $('.paper-name-container').hover(function() {
+        $('.paper-name').css({visibility: 'visible'});
+    }, function() {
+        $('.paper-name').css({visibility: 'hidden'});
+    });
+
     var blocksDisplay = false,
         blocks = function() {
             if (blocksDisplay) {

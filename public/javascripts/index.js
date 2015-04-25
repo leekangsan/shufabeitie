@@ -36,8 +36,8 @@ $(function() {
                     // console.log(json);
                     $.each(json, function() {
                         var coverContainer = $('<div class="thumbnail beitie-img-container"></div>');
-                        coverContainer.append('<img src="/' + this.beitie + '/w100/' + this.cover + '" data-original="/' + this.beitie + '/w1000/' + this.cover + '" class="img-responsive beitie-img ajax-lazy-img">');
-                        coverContainer.append('<div class="caption"><div class="text-center"><a target="_blank" href="/' + this.beitie + '">' + this.name + '</a></div></div>');
+                        coverContainer.append('<img src="/' + this.dir + '/w100/' + this.cover + '" data-original="/' + this.dir + '/w1000/' + this.cover + '" class="img-responsive beitie-img ajax-lazy-img">');
+                        coverContainer.append('<div class="caption"><div class="text-center"><a target="_blank" href="/' + this.dir + '">' + this.name + '</a></div></div>');
                         container.append(coverContainer);
                     });
                     $('.ajax-lazy-img').lazyload({ load: blocks });

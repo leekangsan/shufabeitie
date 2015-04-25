@@ -3,46 +3,52 @@ extends ../formlayout
 block content
 
     #beities.container
-        form#beitie-info-contaioner.form.form-inline.alert.alert-info(method="post")
-            .row
-                .col-md-3
-                    .row.beitie-info-row
-                        .form-group.col-md-12.col-sm-12
-                            label 名称
-                            input.form-control.input-sm(type="text", name="name", value="#{info.name}")
-                    .row.beitie-info-row
-                        .form-group.col-md-12.col-sm-12
-                            label 朝代
-                            input.form-control.input-sm(type="text", name="dynasty", value="#{info.dynasty}")
-                    .row.beitie-info-row
-                        .form-group.col-md-12.col-sm-12
-                            label 书体
-                            input.form-control.input-sm(type="text", name="category", value="#{info.category}")
-                    .row.beitie-info-row
-                        .form-group.col-md-12.col-sm-12
-                            label 作者
-                            input.form-control.input-sm(type="text", name="author", value="#{info.author}")
-                    .row.beitie-info-row
-                        .form-group.col-md-12.col-sm-12
-                            label 材质
-                            input.form-control.input-sm(type="text", name="type", value="#{info.type}")
-                .col-md-9
-                    .row.beitie-info-row
-                        .form-group.col-md-12.col-sm-12
-                            label 简介
-                            input#beitie-description.form-control.input-sm(type="text", name="description", value="#{info.description}")
-                    .row.beitie-info-row
-                        .form-group.col-md-12.col-sm-12
-                            label 内容
-                            textarea#beitie-text.form-control(name="text")= info.text
+
+        ol.breadcrumb.alert.alert-info
+            li
+                a(href="../")= author
+            li
+                a(href="/beitie/#{prev.author}/#{prev.name}/info") 上一法帖
+            li
+                a(href="/beitie/#{next.author}/#{next.name}/info") 下一法帖
+            li
+                a(href="./")= paper
+
+        form#beitie-info-contaioner.form.alert.alert-warning(method="post")
+            .row.form-group
+                .col-md-4
+                    label 名称
+                    input.form-control(type="text", name="name", value="#{info.name}")
+                .col-md-2
+                    label 书体
+                    select#category.form-control(name="category")
+                        option(value="楷书") 楷书
+                        option(value="小楷") 小楷
+                        option(value="行楷") 行楷
+                        option(value="行书") 行书
+                        option(value="行草") 行草
+                        option(value="草书") 草书
+                        option(value="大草") 大草
+                        option(value="小草") 小草
+                        option(value="章草") 章草
+                        option(value="隶书") 隶书
+                        option(value="大篆") 大篆
+                        option(value="小篆") 小篆
+                        option(value="写经") 写经
+                        option(value="魏碑") 魏碑
+                        option(value="墓志") 墓志
+                        option(value="碑刻") 碑刻
+                        option(value="摩崖石刻") 摩崖石刻
+                        option(value="甲骨文金文") 甲骨文金文
+            .row.form-group
+                .col-md-12
+                    label 内容
+                    textarea#beitie-text.form-control(name="text")= info.text
             .row.beitie-info-row
                 .col-md-12
                     .row
                         .form-group.col-md-12.col-sm-12.text-center
-                            input#back-button.form-control(type="button", value="返回")
-                            input.form-control(type="submit", value="保存")
+                            input.btn.btn-default(type="submit", value="保存")
                             script.
-                                $('#back-button').click(function() {
-                                    history.back();
-                                });
+                                $('#category').val("#{info.category}");
 

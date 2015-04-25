@@ -16,5 +16,6 @@ module.exports = {
         var buf = new Buffer(JSON.stringify(json));
         var fd = fs.openSync(file, 'w+');
         fs.writeSync(fd, buf, 0, buf.length, 0);
+        fs.closeSync(fd);
     }
 };
