@@ -25,6 +25,16 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/more', function(req, res, next) {
+    var random = [], size = faties.length - 1;
+    for (var i = 0; i <= size && i < 3; i++) {
+        var pos = Math.round(Math.random() * size);
+        random.push(faties[pos]);
+    }
+
+    res.json(random);
+});
+
+router.get('/page', function(req, res, next) {
     req.session.more = (req.session.more || 0) + 1;
     var more = [], slice = faties.slice(req.session.more * 3), size = slice.length - 1;
     if (size < 3) {

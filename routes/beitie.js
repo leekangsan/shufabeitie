@@ -220,7 +220,7 @@ router.post(/(.*?)\/(.*?)\/info$/, function(req, res) {
 
     // 保存时需要将最新的版本加到数组最前面
     // 删除中英文空格
-    req.body.text = req.body.text.replace(/[ 　]/g, '').replace(/[\r\n]+/g, '\n');
+    req.body.text = req.body.text.replace(/[\u0020\u3000\u00a0]+/g, '').replace(/[\r\n]+/g, '\n').replace(/\[\d+\]/g, '');
     // 最新的版本放在info.json数组的最前面，并加入编辑时间戳和用户user.id
     req.body.user = req.session.user.id;
     req.body.timestamp = new Date().getTime();

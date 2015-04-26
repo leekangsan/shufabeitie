@@ -40,5 +40,6 @@ $(function() {
     });
 
     $('.beitie-lazy-img').lazyload();
+    blocks();
 
 });

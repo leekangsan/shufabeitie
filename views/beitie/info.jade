@@ -19,27 +19,6 @@ block content
                 .col-md-4
                     label 名称
                     input.form-control(type="text", name="name", value="#{info.name}")
-                .col-md-2
-                    label 书体
-                    select#category.form-control(name="category")
-                        option(value="楷书") 楷书
-                        option(value="小楷") 小楷
-                        option(value="行楷") 行楷
-                        option(value="行书") 行书
-                        option(value="行草") 行草
-                        option(value="草书") 草书
-                        option(value="大草") 大草
-                        option(value="小草") 小草
-                        option(value="章草") 章草
-                        option(value="隶书") 隶书
-                        option(value="大篆") 大篆
-                        option(value="小篆") 小篆
-                        option(value="写经") 写经
-                        option(value="魏碑") 魏碑
-                        option(value="墓志") 墓志
-                        option(value="碑刻") 碑刻
-                        option(value="摩崖石刻") 摩崖石刻
-                        option(value="甲骨文金文") 甲骨文金文
             .row.form-group
                 .col-md-12
                     label 内容
@@ -49,6 +28,4 @@ block content
                     .row
                         .form-group.col-md-12.col-sm-12.text-center
                             input.btn.btn-default(type="submit", value="保存")
-                            script.
-                                $('#category').val("#{info.category}");
 
