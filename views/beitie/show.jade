@@ -15,6 +15,12 @@ block content
                 span= paper
                 a.paper-name(href="./info")= "\u00B6"
 
+        - if (info.text)
+            .alert.alert-info
+                #beitie-text-show
+                    != info.text
+
+
         #beitie-imgs-container(data-img-size="#{images.length}")
             each file, index in images
                 - if (index < 2)
@@ -23,11 +29,6 @@ block content
                 - else
                     .thumbnail.beitie-img-container.beitie-lazy-container(id="a#{index}")
                         img.img-responsive.beitie-img.beitie-lazy-img(src="#{path100}/#{file}", data-original="#{path1000}/#{file}")
-
-        - if (info.text)
-            .alert.alert-info.hide
-                #beitie-text-show
-                    != info.text
 
 block footer
     footer#footer
