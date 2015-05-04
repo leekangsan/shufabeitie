@@ -2,7 +2,6 @@ var fs = require('fs');
 var path = require('path');
 var date = require('datejs');
 var express = require('express');
-var faties = require('../config/index');
 var thumbnail = require('../modules/thumbnail');
 var authenticate = require('../modules/users');
 var jsonarrayutils = require('../modules/jsonarrayutils');
@@ -132,7 +131,7 @@ router.get(/^\/(.*?)\/(.*?)\/$/, function(req, res) {
         var fileName = path.join(parentDirectory, item),
             stats = fs.statSync(fileName);
 
-        if (!/^\./.test(item) && stats.isDirectory()) {
+        if (/^[\u4e00-\u9fa5]/.test(item) && stats.isDirectory()) {
             return true;
         }
     });
@@ -179,24 +178,29 @@ router.get(/^\/(.*?)\/(.*?)\/info$/, function(req, res) {
         dir = path.join('public', source),
         author = decodeURIComponent(req.params[0]),
         paper = decodeURIComponent(req.params[1]),
+        parentDirectory = path.join('public', 'beitie', author),
         infofile = path.join(dir, info),
         versions = jsonarrayutils.read(infofile),
         infojson = versions[0] || {name: '', text: ''};
 
-    var length = faties.length;
-    for (var index = 0; index < length; index++) {
-        var fatie = faties[index];
-        if (fatie.name == paper) {
-            break;
-        }
-    }
+    // 找到上一个法帖和下一个法帖的文件夹位置
+    var siblings = fs.readdirSync(parentDirectory).filter(function(item) {
+        var fileName = path.join(parentDirectory, item),
+            stats = fs.statSync(fileName);
 
-    var prevIndex = index - 1,
+        if (/^[\u4e00-\u9fa5]/.test(item) && stats.isDirectory()) {
+            return true;
+        }
+    });
+
+    var length = siblings.length,
+        index = siblings.indexOf(paper),
+        prevIndex = index - 1,
         nextIndex = index + 1;
     if (prevIndex < 0) {
         prevIndex = length - 1;
     }
-    if (nextIndex === length) {
+    if (nextIndex == length) {
         nextIndex = 0;
     }
 
@@ -204,8 +208,8 @@ router.get(/^\/(.*?)\/(.*?)\/info$/, function(req, res) {
         info: infojson,
         paper: paper,
         author: author,
-        prev: faties[prevIndex],
-        next: faties[nextIndex]
+        prev: siblings[prevIndex],
+        next: siblings[nextIndex]
     };
     res.render('beitie/info', json);
 });

@@ -19,21 +19,19 @@ function renamebeitie {
                 fi
                 if [ $target != $file ]
                 then
-                    echo mv $file $target
+                    echo mv $1/$file $1/$target
                     mv $file $target
 
                     dir100=w100
-                    if [ -e $dir100 ]
+                    if [ -e $dir100 ] && [ -e $dir100/$file ]
                     then
-                        echo mv w100/$file w100/$target
-                        mv w100/$file w100/$target
+                        mv $dir100/$file $dir100/$target
                     fi
 
                     dir1000=w1000
-                    if [ -e $dir1000 ]
+                    if [ -e $dir1000 ] && [ -e $dir1000/$file ]
                     then
-                        echo mv w1000/$file w1000/$target
-                        mv w1000/$file w1000/$target
+                        mv $dir1000/$file $dir1000/$target
                     fi
                 fi
 
@@ -58,7 +56,7 @@ then
             do
                 if [ -d $beitie/$author/$paper ]
                 then
-                    echo rename images for $beitie/$author/$paper
+                    # echo rename images for $beitie/$author/$paper
                     renamebeitie $beitie/$author/$paper
                 fi
             done

@@ -2,15 +2,15 @@ extends ../formlayout
 
 block content
 
-    #beities.container
+    #beities.container-fluid
 
         ol.breadcrumb.alert.alert-info
             li
                 a(href="../")= author
             li
-                a(href="/beitie/#{prev.author}/#{prev.name}/info") 上一法帖
+                a(href="/beitie/#{author}/#{prev}/info") 上一法帖
             li
-                a(href="/beitie/#{next.author}/#{next.name}/info") 下一法帖
+                a(href="/beitie/#{author}/#{next}/info") 下一法帖
             li
                 a(href="./")= paper
 

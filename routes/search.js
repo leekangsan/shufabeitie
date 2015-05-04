@@ -25,7 +25,7 @@ router.post('/', function(req, res, next) {
     }
     req.session.search = {index: i, keywords: keywords};
     var data = {
-        title: path.join('书法碑帖', '搜索结果', keywords),
+        title: path.join('书法碑帖', keywords, '搜索结果'),
         faties: matched
     };
 
