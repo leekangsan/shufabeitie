@@ -9,6 +9,6 @@
 安装：
 ---
 
-1.图片处理依赖于imagemagick库，安装imagemagick。
-2.运行npm install安装依赖包。
-3.运行npm start，或者pm2 start processes.json。
+1. 图片处理依赖于imagemagick库，安装imagemagick。
+2. 运行npm install安装依赖包。
+3. 运行npm start，或者pm2 start processes.json。
