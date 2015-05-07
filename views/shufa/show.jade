@@ -6,13 +6,15 @@ block content
 
         ol.breadcrumb.alert.alert-info
             li
+                a(href="/shufa/") 历代名家
+            li
                 a(href="../")= author
             li
                 a(href="../#{prev}/") 上一法帖
             li
                 a(href="../#{next}/") 下一法帖
-            li.paper-name-container
-                span= paper
+            li.paper-name-container.active
+                = paper
                 a.paper-name(href="./info")= "\u00B6"
 
         - if (info.text)
@@ -23,22 +25,24 @@ block content
 
         #beitie-imgs-container(data-img-size="#{images.length}")
             each file, index in images
-                - if (index < 2)
+                - if (index == 0)
                     .thumbnail.beitie-img-container(id="a#{index}")
                         img.img-responsive.beitie-img(src="/#{path1000}/#{file}")
                 - else
-                    .thumbnail.beitie-img-container.beitie-lazy-container(id="a#{index}")
-                        img.img-responsive.beitie-img.beitie-lazy-img(src="/#{path100}/#{file}", data-original="/#{path1000}/#{file}")
+                    .thumbnail.beitie-img-container.hide.beitie-lazy-container(id="a#{index}", data-original="/#{path1000}/#{file}")
+
+        #load-finished.hide.alert.alert-warning
+            此法帖已经全部加载!
 
 block footer
     footer#footer
         #footer-info
             ul#beitie-img-pagination
                 li(role="presentation")
-                    a#beitie-homepage.btn.btn-default(href="/") 首页
+                    a#beitie-img-homepage.btn.btn-default(href="/") 首页
                 li(role="presentation")
                     a#beitie-img-home.btn.btn-default(href="#navbar-top") 顶部
                 li(role="presentation")
-                    #beitie-img-blocks.btn.btn-default 平铺
+                    a#beitie-img-next.btn.btn-default(href="#") 下一页
 
         script(src="/javascripts/show.js")

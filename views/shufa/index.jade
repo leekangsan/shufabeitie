@@ -3,9 +3,12 @@ extends ../layout
 block content
 
     #beities.container-fluid
+        .alert.alert-info
+            中国历史上的书法名家列表。
+
         #beitie-list.row
-            each folder, index in folders
+            each author, index in authors
                 .col-md-3.col-sm-4
                     .thumbnail
                         .caption.ellipsis
-                            a(href="/#{folder.value}/")= (index + 1) + '. ' + folder.key
+                            a(href="/shufa/#{author}/")= (index + 1) + '. ' + author

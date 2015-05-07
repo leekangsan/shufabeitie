@@ -2,18 +2,22 @@ var fs = require('fs');
 var path = require('path');
 var beitie = 'public/beitie';
 
-var authors = fs.readdirSync(beitie);
-var json = [];
-authors.forEach(function(author) {
+var dirs = fs.readdirSync(beitie);
+var authors = [], papers = [];
+dirs.forEach(function(author) {
     var pdir = path.join(beitie, author);
     var pstats = fs.statSync(pdir);
     if (!pstats.isDirectory()) {
         // console.log(pdir, ' is not a directory');
         return false;
+    } else {
+        if (/[\u4e00-\u9fa5]/.test(author)) {
+            authors.push(author);
+        }
     }
 
-    var papers = fs.readdirSync(pdir);
-    papers.forEach(function(paper) {
+    var subdirs = fs.readdirSync(pdir);
+    subdirs.forEach(function(paper) {
         var dir = path.join(beitie, author, paper);
         var stats = fs.statSync(dir);
         if (!stats.isDirectory()) {
@@ -27,9 +31,9 @@ authors.forEach(function(author) {
         });
 
         if (images.length) {
-            json.push({size: images.length, author: author, paper: paper, cover: images[0]});
+            papers.push({size: images.length, author: author, paper: paper, cover: images[0]});
         }
     });
 });
 
-module.exports = json;
+module.exports = {authors: authors, papers: papers};

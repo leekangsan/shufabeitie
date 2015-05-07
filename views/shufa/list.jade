@@ -3,6 +3,12 @@ extends ../layout.jade
 block content
 
     #beities.container-fluid
+        ol.alert.alert-info.breadcrumb
+            li
+                a(href="../") 历代名家
+            li.active
+                = author
+
         #beitie-list.row
             each folder, index in folders
                 .col-md-4.col-sm-6

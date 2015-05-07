@@ -5,6 +5,7 @@ var express = require('express');
 var thumbnail = require('../modules/thumbnail');
 var authenticate = require('../modules/users');
 var jsonarrayutils = require('../modules/jsonarrayutils');
+var faties = require('../modules/indexgenerator');
 var router = express.Router();
 var beitie = 'beitie';
 var root = 'public';
@@ -21,24 +22,9 @@ router.use(/(.*?)\/(.*?)\/info$/, function(req, res, next) {
 
 // define the home page route
 router.get('/', function(req, res) {
-    var folders = [],
-        files = fs.readdirSync(path.join(root, beitie));
-
-    files.forEach(function(item) {
-        var fileName = path.join(root, beitie, item),
-            stats = fs.statSync(fileName);
-
-        if (stats.isDirectory()) {
-            folders.push({
-                key: item,
-                value: path.join(shufa, item)
-            });
-        }
-    });
-
     var data = {
         title: '书法碑帖',
-        folders: folders
+        authors: faties.authors
     };
 
     res.render(path.join(shufa, 'index'), data);
@@ -91,6 +77,7 @@ router.get(/^\/([^\/]*)\/$/, function(req, res) {
 
         var data = {
             title: path.join('书法碑帖', author),
+            author: author,
             folders: folders
         };
 

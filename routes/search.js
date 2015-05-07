@@ -14,13 +14,13 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/', function(req, res, next) {
-    var matched = [], size = faties.length - 1;
+    var matched = [], size = faties.papers.length - 1;
     var keywords = req.body.keywords;
     var i = 0;
-    for (; i <= size && matched.length < 12; i++) {
-        var fatie = faties[i];
+    for (; i <= size && matched.length < 120; i++) {
+        var fatie = faties.papers[i];
         if (new RegExp(keywords, 'i').test(fatie.paper)) {
-            matched.push(faties[i]);
+            matched.push(faties.papers[i]);
         }
     }
     req.session.search = {index: i, keywords: keywords};
@@ -33,14 +33,14 @@ router.post('/', function(req, res, next) {
 });
 
 router.get('/more', function(req, res, next) {
-    var more = [], size = faties.length - 1;
+    var more = [], size = faties.papers.length - 1;
     console.dir(req.session.search.index);
     var i = req.session.search.index + 1;
     var keywords = req.session.search.keywords;
     for (; i <= size && more.length < 3; i++) {
-        var fatie = faties[i];
+        var fatie = faties.papers[i];
         if (new RegExp(keywords, 'i').test(fatie.paper)) {
-            more.push(faties[i]);
+            more.push(faties.papers[i]);
         }
     }
     req.session.search.index = i;
