@@ -8,12 +8,12 @@ var bodyParser = require('body-parser');
 var session = require('cookie-session');
 
 var routes = require('./routes/index');
-var beitie = require('./routes/beitie');
+var shufa = require('./routes/shufa');
 var search = require('./routes/search');
 
 var sessionConfig = {
     "name": "sessionid",
-    "secret": "shufabeitie",
+    "secret": "shufabeitie.com",
     "maxAge": 21600000
 };
 var sessionConfigFile = './config/session-config';
@@ -39,7 +39,7 @@ app.use(session(sessionConfig));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
-app.use('/beitie', beitie);
+app.use('/shufa', shufa);
 app.use('/search', search);
 
 // catch 404 and forward to error handler

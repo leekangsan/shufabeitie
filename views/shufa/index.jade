@@ -1,11 +1,11 @@
-extends ../layout.jade
+extends ../layout
 
 block content
 
     #beities.container-fluid
         #beitie-list.row
             each folder, index in folders
-                .col-md-4.col-sm-6
+                .col-md-3.col-sm-4
                     .thumbnail
                         .caption.ellipsis
-                            a(href="#{folder.value}")= (index + 1) + '. ' + folder.key
+                            a(href="/#{folder.value}/")= (index + 1) + '. ' + folder.key

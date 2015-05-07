@@ -6,30 +6,32 @@ var thumbnail = require('../modules/thumbnail');
 var authenticate = require('../modules/users');
 var jsonarrayutils = require('../modules/jsonarrayutils');
 var router = express.Router();
+var beitie = 'beitie';
+var root = 'public';
+var shufa = 'shufa';
 
 router.use(/(.*?)\/(.*?)\/info$/, function(req, res, next) {
     var user = req.session.user;
     if (authenticate(user)) {
         next();
     } else {
-        res.redirect('/beitie/login?url=' + req.originalUrl);
+        res.redirect('/shufa/login?url=' + req.originalUrl);
     }
 });
 
 // define the home page route
 router.get('/', function(req, res) {
-    var source = 'beitie',
-        folders = [],
-        files = fs.readdirSync(path.join('public', source));
+    var folders = [],
+        files = fs.readdirSync(path.join(root, beitie));
 
     files.forEach(function(item) {
-        var fileName = path.join('public', source, item),
+        var fileName = path.join(root, beitie, item),
             stats = fs.statSync(fileName);
 
         if (stats.isDirectory()) {
             folders.push({
                 key: item,
-                value: item
+                value: path.join(shufa, item)
             });
         }
     });
@@ -39,11 +41,11 @@ router.get('/', function(req, res) {
         folders: folders
     };
 
-    res.render('beitie/index', data);
+    res.render(path.join(shufa, 'index'), data);
 });
 
 router.get('/login', function(req, res) {
-    res.render('beitie/login');
+    res.render(path.join(shufa, 'login'));
 });
 
 router.post('/login', function(req, res) {
@@ -58,32 +60,31 @@ router.post('/login', function(req, res) {
             res.redirect('/');
         }
     } else {
-        res.render('beitie/login');
+        res.render(path.join(shufa, 'login'));
     }
 });
 
-// define the show beitie list route, 一级目录路径: /beitie/东晋-王羲之/
+// define the show shufa list route, 一级目录路径: /shufa/东晋-王羲之/
 router.get(/^\/([^\/]*)\/$/, function(req, res) {
     var source = decodeURIComponent(req.originalUrl),
         author = decodeURIComponent(req.params[0]),
-        file = path.join('public', source),
+        file = path.join(root, beitie, author),
         folders = [];
 
-    // console.log(source, file, req.params[0]);
     if (!fs.existsSync(file)) {
-        res.status(404).render('beitie/404', {
+        res.status(404).render(path.join(shufa, '404'), {
             url: source
         });
     } else {
-        var files = fs.readdirSync(path.join('public', source));
+        var files = fs.readdirSync(path.join(root, beitie, author));
         files.forEach(function(item) {
-            var fileName = path.join('public', source, item),
+            var fileName = path.join(root, beitie, author, item),
                 stats = fs.statSync(fileName);
 
             if (!/^\./.test(item) && stats.isDirectory()) {
                 folders.push({
                     key: item,
-                    value: path.join(source, item)
+                    value: path.join(shufa, author, item)
                 });
             }
         });
@@ -93,18 +94,17 @@ router.get(/^\/([^\/]*)\/$/, function(req, res) {
             folders: folders
         };
 
-        res.render('beitie/list', data);
+        res.render(path.join(shufa, 'list'), data);
     }
 });
 
-// define the show beitie details route, 二级碑帖内容显示路径: /beitie/北魏-五代-敦煌写经/转轮经/
+// define the show shufa details route, 二级碑帖内容显示路径: /shufa/北魏-五代-敦煌写经/转轮经/
 router.get(/^\/(.*?)\/(.*?)\/$/, function(req, res) {
-    var source = decodeURIComponent(req.originalUrl),
-        dir = path.join('public', source),
-        info = 'info.json',
-        author = decodeURIComponent(req.params[0]),
+    var author = decodeURIComponent(req.params[0]),
         paper = decodeURIComponent(req.params[1]),
-        parentDirectory = path.join('public', 'beitie', author),
+        dir = path.join(root, beitie, author, paper),
+        info = 'info.json',
+        parentDirectory = path.join(root, beitie, author),
         infofile = path.join(dir, info),
         infoexist = false,
         w1000exist = false,
@@ -160,25 +160,24 @@ router.get(/^\/(.*?)\/(.*?)\/$/, function(req, res) {
         author: author,
         prev: siblings[prevIndex],
         next: siblings[nextIndex],
-        path100: path.join(source, (w100exist ? 'w100' : '')),
-        path1000: path.join(source, (w1000exist ? 'w1000' : ''))
+        path100: path.join(beitie, author, paper, (w100exist ? 'w100' : '')),
+        path1000: path.join(beitie, author, paper, (w1000exist ? 'w1000' : ''))
     };
     if (infoexist) {
         var versions = jsonarrayutils.read(infofile);
         json.info = versions[0] || {};
         json.info.text = '<p>' + json.info.text.replace(/\n+/g, '<p>');
     }
-    res.render('beitie/show', json);
+    res.render(path.join(shufa, 'show'), json);
 });
 
 // edit info.json
 router.get(/^\/(.*?)\/(.*?)\/info$/, function(req, res) {
-    var source = decodeURIComponent(req.originalUrl.replace(/info/, '')),
-        info = 'info.json',
-        dir = path.join('public', source),
-        author = decodeURIComponent(req.params[0]),
+    var author = decodeURIComponent(req.params[0]),
         paper = decodeURIComponent(req.params[1]),
-        parentDirectory = path.join('public', 'beitie', author),
+        info = 'info.json',
+        dir = path.join(root, beitie, author, paper),
+        parentDirectory = path.join(root, beitie, author),
         infofile = path.join(dir, info),
         versions = jsonarrayutils.read(infofile),
         infojson = versions[0] || {name: '', text: ''};
@@ -211,13 +210,15 @@ router.get(/^\/(.*?)\/(.*?)\/info$/, function(req, res) {
         prev: siblings[prevIndex],
         next: siblings[nextIndex]
     };
-    res.render('beitie/info', json);
+    res.render(path.join(shufa, 'info'), json);
 });
 
 // save info.json
 router.post(/(.*?)\/(.*?)\/info$/, function(req, res) {
-    var source = decodeURIComponent(req.originalUrl.replace(/info/, '')),
-        dir = path.join('public', source),
+    var source = decodeURIComponent(req.originalUrl),
+        author = decodeURIComponent(req.params[0]),
+        paper = decodeURIComponent(req.params[1]),
+        dir = path.join(root, beitie, author, paper),
         info = 'info.json',
         infofile = path.join(dir, info),
         versions = jsonarrayutils.read(infofile);

@@ -1,8 +1,8 @@
 var express = require('express');
 var path = require('path');
-var faties = require('../config/index');
 var router = express.Router();
 var jsonarrayutils = require('../modules/jsonarrayutils');
+var faties = require('../modules/indexgenerator');
 
 router.use(function(err, req, res, next) {
     console.error(err.stack);

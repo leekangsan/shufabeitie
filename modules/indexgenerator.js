@@ -1,13 +1,6 @@
 var fs = require('fs');
 var path = require('path');
-var args = process.argv.slice(2);
-var beitie = args[0];
-
-if (!fs.existsSync(beitie)) {
-    console.log(beitie, ' is not exists.');
-    console.log('Usage: node modules/indexgenerator.js public/beitie/');
-    return false;
-}
+var beitie = 'public/beitie';
 
 var authors = fs.readdirSync(beitie);
 var json = [];
@@ -32,22 +25,11 @@ authors.forEach(function(author) {
         var images = all.filter(function(t) {
             return /\.jpg/i.test(t);
         });
+
         if (images.length) {
-            json.push({size: images.length, author: author, name: paper, cover: images[0], dir: path.join('beitie', author, paper)});
-        } else {
-            // console.log(dir, ' has no jpg images.');
+            json.push({size: images.length, author: author, paper: paper, cover: images[0]});
         }
     });
 });
 
-var indexes = JSON.stringify(json);
-// console.log(indexes);
-var indexfile = path.join(beitie, '..', '..', 'config', 'index.json');
-
-fs.open(indexfile, 'w+', function(err, fd) {
-    var buf = new Buffer(indexes);
-    fs.writeSync(fd, buf, 0, buf.length, 0);
-    fs.closeSync(fd);
-});
-
-console.log(json.length);
+module.exports = json;

@@ -1,6 +1,6 @@
 var express = require('express');
 var path = require('path');
-var faties = require('../config/index');
+var faties = require('../modules/indexgenerator');
 var router = express.Router();
 
 router.get('/', function(req, res, next) {
@@ -19,7 +19,7 @@ router.post('/', function(req, res, next) {
     var i = 0;
     for (; i <= size && matched.length < 12; i++) {
         var fatie = faties[i];
-        if (new RegExp(keywords, 'i').test(fatie.dir)) {
+        if (new RegExp(keywords, 'i').test(fatie.paper)) {
             matched.push(faties[i]);
         }
     }
@@ -39,7 +39,7 @@ router.get('/more', function(req, res, next) {
     var keywords = req.session.search.keywords;
     for (; i <= size && more.length < 3; i++) {
         var fatie = faties[i];
-        if (new RegExp(keywords, 'i').test(fatie.dir)) {
+        if (new RegExp(keywords, 'i').test(fatie.paper)) {
             more.push(faties[i]);
         }
     }
