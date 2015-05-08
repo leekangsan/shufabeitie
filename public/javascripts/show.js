@@ -67,6 +67,10 @@ $(function() {
                 var $img = $('<img src="/images/loading.gif" class="img-responsive beitie-img loading-img" />');
                 next.html($img);
                 img.src = next.data('original');
+                img.onerror = function() {
+                    next.remove();
+                    nextLoading = false;
+                };
                 img.onload = function() {
                     // next image loading finished.
                     nextLoading = false;
