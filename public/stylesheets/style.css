@@ -25,7 +25,7 @@ h4.beitie-intro {
     position: relative;
 }
 .beitie-img-container {
-    min-height: 50px;
+    min-height: 60px;
     -webkit-transition: top 1s ease, left 1s ease;
     -moz-transition: top 1s ease, left 1s ease;
     -o-transition: top 1s ease, left 1s ease;
@@ -34,6 +34,10 @@ h4.beitie-intro {
 .beitie-img {
     border-radius: 4px;
     width: 100%;
+}
+.beitie-img.loading-img {
+    width: auto;
+    margin: 17px auto;
 }
 .paper-name {
     visibility: hidden;
@@ -53,14 +57,17 @@ h4.beitie-intro {
     padding: 0;
     bottom: 0;
     left: 50%;
-    width: 280px;
-    margin: 0 0 0 -140px;
+    width: 190px;
+    margin: 0 0 0 -95px;
 }
 #beitie-img-pagination li {
     float: left;
 }
 #beitie-img-pagination li + li {
     margin-left: 50px;
+}
+#beitie-img-pagination .btn {
+    width: 68px;
 }
 #footer-info {
     background: #000;

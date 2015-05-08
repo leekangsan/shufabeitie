@@ -52,14 +52,13 @@ router.post('/login', function(req, res) {
 
 // define the show shufa list route, 一级目录路径: /shufa/东晋-王羲之/
 router.get(/^\/([^\/]*)\/$/, function(req, res) {
-    var source = decodeURIComponent(req.originalUrl),
-        author = decodeURIComponent(req.params[0]),
+    var author = decodeURIComponent(req.params[0]),
         file = path.join(root, beitie, author),
         folders = [];
 
     if (!fs.existsSync(file)) {
         res.status(404).render(path.join(shufa, '404'), {
-            url: source
+            url: decodeURIComponent(req.originalUrl)
         });
     } else {
         var files = fs.readdirSync(path.join(root, beitie, author));
@@ -202,8 +201,7 @@ router.get(/^\/(.*?)\/(.*?)\/info$/, function(req, res) {
 
 // save info.json
 router.post(/(.*?)\/(.*?)\/info$/, function(req, res) {
-    var source = decodeURIComponent(req.originalUrl),
-        author = decodeURIComponent(req.params[0]),
+    var author = decodeURIComponent(req.params[0]),
         paper = decodeURIComponent(req.params[1]),
         dir = path.join(root, beitie, author, paper),
         info = 'info.json',
@@ -221,7 +219,7 @@ router.post(/(.*?)\/(.*?)\/info$/, function(req, res) {
     versions.unshift(req.body);
     jsonarrayutils.write(infofile, versions);
 
-    res.redirect(source);
+    res.redirect('./');
 });
 
 module.exports = router;

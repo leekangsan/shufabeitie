@@ -31,7 +31,7 @@ block content
                 - else
                     .thumbnail.beitie-img-container.hide.beitie-lazy-container(id="a#{index}", data-original="/#{path1000}/#{file}")
 
-        #load-finished.hide.alert.alert-warning
+        #load-finished.hide.alert.alert-warning.
             此法帖已经全部加载!
 
 block footer
@@ -39,10 +39,11 @@ block footer
         #footer-info
             ul#beitie-img-pagination
                 li(role="presentation")
-                    a#beitie-img-homepage.btn.btn-default(href="/") 首页
-                li(role="presentation")
                     a#beitie-img-home.btn.btn-default(href="#navbar-top") 顶部
                 li(role="presentation")
-                    a#beitie-img-next.btn.btn-default(href="#") 下一页
+                    a#beitie-img-blocks.btn.btn-default.hide(href="#") 平铺
+                li(role="presentation")
+                    a#beitie-img-next.btn.btn-default(href="#") 下一张
 
+        script(src="/javascripts/jquery.blocksit.js")
         script(src="/javascripts/show.js")

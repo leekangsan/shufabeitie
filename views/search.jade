@@ -3,7 +3,7 @@ extends formlayout
 block content
 
     #beities.container-fluid
-        .alert.alert-info
+        .alert.alert-info.
             输入书法作品名或者是书法家的名字进行搜索，最多返回120个结果。
 
         form.form.alert.alert-warning(method='post')
@@ -17,7 +17,7 @@ block content
         #beitie-imgs-container.row
             each fatie, index in faties
                 .col-md-4.col-sm-6
-                    .thumbnail.beitie-img-container
+                    .thumbnail
                         .caption
                             a(target="_blank", href="/shufa/#{fatie.author}/#{fatie.paper}/")= (index + 1) + '. ' + fatie.paper
 
