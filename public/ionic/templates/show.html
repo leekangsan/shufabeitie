@@ -1,0 +1,26 @@
+<ion-view view-title="{{fatie.paper}}">
+  <ion-content>
+    <div class="button-bar padding">
+      <a class="button button-small button-light col-25" href="#/shufa/{{fatie.author}}/{{fatie.prev}}">上一法帖</a>
+      <a class="button button-small button-light col-50" href="#/shufa/{{fatie.author}}">
+        <span class="ion-ios-arrow-up up-lvl"></span>
+        {{fatie.author}}
+      </a>
+      <a class="button button-small button-light col-25" href="#/shufa/{{fatie.author}}/{{fatie.next}}">下一法帖</a>
+    </div>
+
+    <div id="beitie-imgs-container" ng-if="fatie.images.length">
+
+      <ion-slide-box on-slide-changed="slideHasChanged($index)" show-pager=false>
+        <ion-slide class="swiper-slide beitie-img-container" ng-repeat="(index, image) in fatie.images">
+          <img data-src="/{{fatie.path100}}/{{image}}" data-img="/{{fatie.path1000}}/{{image}}" class="box img-responsive beitie-img" fatie-image>
+        </ion-slide>
+      </ion-slide-box>
+
+      <div id="beitie-text-container" class="card {{published}}">
+        <div id="beitie-text-show" class="item item-text-wrap" ng-bind-html="fatie.info.html"></div>
+      </div>
+    </div>
+  </ion-content>
+</ion-view>
+

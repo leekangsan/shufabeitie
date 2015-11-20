@@ -7,12 +7,10 @@ html
     meta(name='viewport', content='width=device-width, initial-scale=1, maximum-scale=1')
     meta(name='description', content='中国史上各朝各代书法名家的书法碑帖')
 
-    link(rel='stylesheet', href='/bootstrap-3.3.4/css/bootstrap.css')
+    link(rel='stylesheet', href='/bower_components/bootstrap/dist/css/bootstrap.css')
     link(rel='stylesheet', href='/stylesheets/style.css')
-    script(src='/javascripts/jquery-1.11.2.js')
-    script(src='/bootstrap-3.3.4/js/bootstrap.js')
-    script(src="/javascripts/jquery.blocksit.js")
-    script(src="/javascripts/jquery.lazyload.js")
+    script(src='/bower_components/jquery/dist/jquery.js')
+    script(src='/bower_components/bootstrap/dist/js/bootstrap.js')
   body
     include ./includes/nav.jade
 
@@ -20,5 +18,4 @@ html
 
     block footer
         footer#footer
-            #footer-info &copy; 2015 www.shufabeitie.com
-
+            #footer-info &copy; shufabeitie.com 沪ICP备15020815号

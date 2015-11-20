@@ -15,13 +15,7 @@ block content
                 a(href="../#{next}/") 下一法帖
             li.paper-name-container.active
                 = paper
-                a.paper-name(href="./info")= "\u00B6"
-
-        - if (info.text)
-            .alert.alert-info.hide
-                #beitie-text-show
-                    != info.text
-
+                a.paper-name(href="./info")= "\u0020\u00B6"
 
         #beitie-imgs-container(data-img-size="#{images.length}")
             each file, index in images
@@ -31,12 +25,18 @@ block content
                 - else
                     .thumbnail.beitie-img-container.hide.beitie-lazy-container(id="a#{index}", data-original="/#{path1000}/#{file}")
 
-        #load-finished.hide.alert.alert-warning.
-            此法帖已经全部加载!
+        - if (info.published)
+            #beitie-text-container.alert.alert-info
+                #beitie-text-show
+                    != info.text
+        - else if (info.text)
+            #beitie-text-container.alert.alert-info.hide
+                #beitie-text-show
+                    != info.text
 
 block footer
     footer#footer
-        #footer-info
+        #footer-navigator
             ul#beitie-img-pagination
                 li(role="presentation")
                     a#beitie-img-home.btn.btn-default(href="#navbar-top") 顶部

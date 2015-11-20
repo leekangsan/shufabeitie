@@ -1,0 +1,30 @@
+<!Doctype html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>CanJS todomvc example</title>
+    <link rel="stylesheet" href="css/todos.css">
+    <script type="text/javascript" src="bower_components/jquery/dist/jquery.js"></script>
+    <script type="text/javascript" src="bower_components/canjs/can.jquery.js"></script>
+</head>
+<body>
+    <ul id='todos'></ul>
+    <input id='editor'/>
+
+    <script type='text/mustache' id='todosMustache'>
+
+    <!-- bind to changes in the todo list -->
+    {{#todos}}
+        <li {{data 'todo'}}>
+            <input type="checkbox" class="complete" {{#if complete}}checked{{/if}}/>
+            <span class="{{#if complete}}done{{/if}}">
+                {{name}}
+            </span>
+            <!-- a destroy link -->
+            <a href="javascript://" class='destroy'>X</a>
+        </li>
+    {{/todo}}
+    </script>
+    <script type="text/javascript" src="js/todos.js"></script>
+</body>
+</html>

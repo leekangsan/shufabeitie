@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>书法碑帖</title>
+    <meta name="description" content="中国史上各朝各代书法名家的书法碑帖">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="bower_components/swiper/dist/css/swiper.css">
+    <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+    <nav id="navbar-top" class="navbar navbar-inverse">
+        <div class="container-fluit">
+            <div class="navbar-header">
+                <button type="button" data-toggle="collapse" data-target="#navbar-collapse" class="navbar-toggle collapsed">
+                    <span class="sr-only"></span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+                </button>
+                <a href="/angularjs-requirejs/#" class="navbar-brand">书法碑帖</a>
+            </div>
+            <div id="navbar-collapse" class="collapse navbar-collapse" ng-controller="NavbarCtrl">
+                <ul class="nav navbar-nav navbar-left">
+                    <li ng-click="navClick()"><a href="#/">首页</a></li>
+                    <li ng-click="navClick()"><a href="#/authors">历代名家</a></li>
+                    <li ng-click="navClick()"><a href="#/search">搜索</a></li>
+                    <li class="dropdown">
+                        <div id="version-switch" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            Versions<span class="caret"></span>
+                        </div>
+                        <ul class="dropdown-menu">
+                            <li ng-click="navClick()"><a href="/">ExpressJS</a></li>
+                            <li ng-click="navClick()"><a href="/angularjs/#/">AngularJS</a></li>
+                            <li ng-click="navClick()"><a href="/angularjs-requirejs/#/">AngularJS&RequireJS</a></li>
+                            <li ng-click="navClick()"><a href="/backbonejs/#/">Backbone.js</a></li>
+                            <li ng-click="navClick()"><a href="/react/#/">React.js</a></li>
+                            <li ng-click="navClick()"><a href="/emberjs/#/">Ember.js</a></li>
+                            <li ng-click="navClick()"><a href="/knockoutjs/#/">Knockout.js</a></li>
+                            <li ng-click="navClick()"><a href="/canjs/#!">Can.js</a></li>
+                            <li ng-click="navClick()"><a href="/ionic/#/">ionic</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div id="beities" class="container-fluid">
+        <div class="row">
+            <div class="col-md-12" id="beitie-container" ng-view></div>
+        </div>
+    </div>
+    <footer id="footer">
+        <div id="footer-info">&copy; shufabeitie.com 沪ICP备15020815号</div>
+    </footer>
+
+    <script data-main="js/main" src="bower_components/requirejs/require.js"></script>
+</body>
+</html>

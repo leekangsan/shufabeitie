@@ -1,0 +1,17 @@
+{
+  "name": "shufabeitie-emberjs",
+  "description": "shufabeitie implements using emberjs",
+  "version": "0.1.1",
+  "homepage": "https://www.shufabeitie.com/emberjs",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "requirejs": "2.1.20",
+    "requirejs-text": "2.0.10",
+    "jquery": "~2.1.1",
+    "bootstrap": "~3.1.1",
+    "swiper": "3.1.0",
+    "ember": "1.13.0",
+    "ember-data": "1.13.0"
+  }
+}

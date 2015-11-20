@@ -1,0 +1,20 @@
+<ion-view view-title="历代名家">
+  <ion-content>
+    <div class="card">
+      <div class="item item-text-wrap">
+        中国历史上的书法名家列表。
+      </div>
+    </div>
+    <div class="list" id="beitie-authors">
+      <div class="item item-input-inset">
+        <label class="item-input-wrapper">
+          <input type="text" ng-model="query" placeholder="历代书法名家">
+        </label>
+      </div>
+      <a class="item" bindonce ng-repeat="(index, author) in authors | filter:query" href="#/shufa/{{author}}">
+        {{index + 1}}. {{author}}
+      </a>
+    </div>
+    <div ui-view name="faties"></div>
+  </ion-content>
+</ion-view>

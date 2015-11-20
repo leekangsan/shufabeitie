@@ -1,0 +1,34 @@
+body {
+    padding: 50px;
+}
+.done {
+    text-decoration: line-through;
+    color: #ccc;
+}
+li {
+    padding: 5px;
+    font-size: 18px;
+    cursor: pointer;
+}
+li:hover {
+    background-color: #eee;
+}
+.destroy {
+    background-color: #999;
+    color: #fff;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    border-radius: 20px;
+    text-decoration: none;
+    font-size: 8px;
+    padding: 2px 5px;
+    margin: 5px;
+    text-shadow: 0 -1px 0 #999;
+}
+.destroy:hover {
+    background-color: red;
+}
+#editor {
+    font-size: 18px;
+    margin: 5px;
+}

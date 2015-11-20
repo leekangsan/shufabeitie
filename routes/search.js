@@ -15,7 +15,7 @@ router.get('/', function(req, res, next) {
 
 router.post('/', function(req, res, next) {
     var matched = [], size = faties.papers.length - 1;
-    var keywords = req.body.keywords;
+    var keywords = req.body.keywords.trim();
     var i = 0;
     for (; i <= size && matched.length < 120; i++) {
         var fatie = faties.papers[i];
@@ -29,7 +29,12 @@ router.post('/', function(req, res, next) {
         faties: matched
     };
 
-    res.render('search', data);
+    if (req.xhr || /json/.test(req.get('Accept'))) {
+        // xhr
+        res.json(matched);
+    } else {
+        res.render('search', data);
+    }
 });
 
 router.get('/more', function(req, res, next) {

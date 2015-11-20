@@ -10,7 +10,7 @@ block content
             .row
                 .col-md-6.col-sm-12
                     .input-group
-                        input.form-control(type="text", name="keywords")
+                        input.form-control(type="text", name="keywords", placeholder="书法作品名或者是书法家")
                         span.input-group-btn
                             input.btn.btn-default(type="submit", value="搜索")
 
@@ -18,6 +18,6 @@ block content
             each fatie, index in faties
                 .col-md-4.col-sm-6
                     .thumbnail
-                        .caption
+                        .caption.ellipsis
                             a(target="_blank", href="/shufa/#{fatie.author}/#{fatie.paper}/")= (index + 1) + '. ' + fatie.paper
 

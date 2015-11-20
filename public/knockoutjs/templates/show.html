@@ -1,0 +1,33 @@
+<div id="ko-show-component" data-bind="template: {if: beitie, afterRender: swiper}">
+    <!-- ko with: beitie -->
+    <ol class="breadcrumb alert alert-info">
+        <li><a href="#/authors">历代名家</a></li>
+        <li><a href="#" data-bind="attr: {href: href}, text: author"></a></li>
+        <li><a href="#" data-bind="attr: {href: prev}">上一法帖</a></li>
+        <li><a href="#" data-bind="attr: {href: next}">下一法帖</a></li>
+        <li class="paper-name-container active" data-bind="text: paper"></li>
+    </ol>
+
+    <div id="beitie-imgs-container">
+        <div class="beitie-swiper-container">
+            <div class="swiper-container">
+                <div class="swiper-wrapper" data-bind="foreach: images">
+                    <div class="swiper-slide thumbnail beitie-img-container">
+                        <img class="img-responsive beitie-img" data-bind="attr: {src: $parent.path100 + $data,
+                        'data-src': $parent.path1000 + $data}">
+                    </div>
+                </div>
+                <div class="swiper-scrollbar"></div>
+            </div>
+        </div>
+
+        <div id="beitie-display-container" class="thumbnail beitie-img-container">
+            <img class="img-responsive beitie-img" data-bind="attr: {src: cover}">
+        </div>
+        <div id="beitie-text-container" class="alert alert-info" data-bind="css: published">
+            <div id="beitie-text-show" data-bind="html: info.html"></div>
+        </div>
+    </div>
+    <!-- /ko -->
+</div>
+

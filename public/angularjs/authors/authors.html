@@ -1,0 +1,20 @@
+<div class="alert alert-info">中国历史上的书法名家列表。</div>
+<form class="form form-horizontal alert alert-warning" ng-submit="search()">
+    <div class="row">
+        <div class="col-md-6 col-sm-12">
+            <div class="input-group">
+                <input ng-model="query" id="author-query" class="form-control" placeholder="历代书法名家">
+                <span class="input-group-addon">过滤</span>
+            </div>
+        </div>
+    </div>
+</form>
+<div class="row" id="beitie-authors">
+    <div class="col-md-3 col-xs-6 author" ng-repeat="(index, author) in authors | filter:query">
+        <div class="thumbnail">
+            <div class="caption ellipsis">
+                <a href="#/shufa/{{author}}">{{index + 1}}. {{author}}</a>
+            </div>
+        </div>
+    </div>
+</div>

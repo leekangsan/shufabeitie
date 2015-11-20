@@ -1,0 +1,14 @@
+{
+  "name": "shufabeitie-ionic",
+  "description": "shufabeitie implements using ionic",
+  "version": "0.2.3",
+  "homepage": "https://www.shufabeitie.com/ionic",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "angular": "1.4.x",
+    "angular-bindonce": "~0.3.3",
+    "angular-route": "1.4.x",
+    "ionic": "~1.1.0"
+  }
+}

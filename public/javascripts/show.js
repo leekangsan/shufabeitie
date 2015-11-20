@@ -5,6 +5,11 @@ $(function() {
         $('.paper-name').css({visibility: 'hidden'});
     });
 
+    $('.navbar-brand').click(function() {
+        $('#beitie-text-container').removeClass('hide');
+        return false;
+    });
+
     var blocksDisplay = false,
         blocks = function() {
             if (blocksDisplay) {
@@ -49,18 +54,18 @@ $(function() {
     // 向下翻页
     var nextLoading = false;
     $('#beitie-img-next').click(function() {
-        if (nextLoading) {
+        if (nextLoading === true) {
             return false;
         }
-        nextLoading = true;
         current = current + 1;
         var next = $('#a' + current);
         if (next.length === 0) {
             current = current - 1;
-            $('#load-finished,#beitie-img-blocks,#beitie-img-next').toggleClass('hide');
+            $('#beitie-img-blocks,#beitie-img-next').toggleClass('hide');
             return false;
         } else {
             if (next.hasClass('beitie-lazy-container')) {
+                nextLoading = true;
                 next.removeClass('beitie-lazy-container');
                 next.removeClass('hide');
                 var img = new Image();
@@ -68,24 +73,23 @@ $(function() {
                 next.html($img);
                 img.src = next.data('original');
                 img.onerror = function() {
-                    next.remove();
                     nextLoading = false;
+                    // console.error(img);
+                    next.remove();
                 };
                 img.onload = function() {
                     // next image loading finished.
                     nextLoading = false;
-                    $img.removeClass('loading-img').attr('src', this.src);
+                    $img.attr('src', this.src).removeClass('loading-img');
                     next = $('#a' + (current + 1));
                     if (next.length && next.hasClass('beitie-lazy-container')) {
                         // preload next image.
                         var img = new Image();
                         img.src = next.data('original');
                     }
-                    window.location.href = '#a' + current;
                 };
-            } else {
-                window.location.href = '#a' + current;
             }
+            window.location.href = '#a' + current;
         }
         return false;
     });

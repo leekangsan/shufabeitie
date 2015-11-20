@@ -1,0 +1,31 @@
+<ol class="breadcrumb alert alert-info">
+    <li><a href="#/authors">历代名家</a></li>
+    <li><a href="#/shufa/{{author}}">{{author}}</a></li>
+    <li><a href="#/shufa/{{author}}/{{prev}}">上一法帖</a></li>
+    <li><a href="#/shufa/{{author}}/{{next}}">下一法帖</a></li>
+    <li class="paper-name-container active">{{paper}}</li>
+</ol>
+
+{{#if images}}
+<div id="beitie-imgs-container">
+    <div class="beitie-swiper-container" data-img-size="{{images.length}}">
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+                {{#foreach images}}
+                <div id="a{{@index}}" class="swiper-slide thumbnail beitie-img-container">
+                    <img src="/{{../path100}}/{{this}}" class="img-responsive beitie-img" data-src="/{{../path1000}}/{{this}}">
+                </div>
+                {{/foreach}}
+            </div>
+            <div class="swiper-scrollbar"></div>
+        </div>
+    </div>
+
+    <div id="beitie-display-container" class="thumbnail beitie-img-container">
+        <img src="/{{path1000}}/{{cover}}" class="image-responsive beitie-img">
+    </div>
+    <div id="beitie-text-container" class="alert alert-info {{published}}">
+        <div id="beitie-text-show">{{{info.html}}}</div>
+    </div>
+</div>
+{{/if}}

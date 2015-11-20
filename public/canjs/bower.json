@@ -1,0 +1,16 @@
+{
+  "name": "shufabeitie-canjs",
+  "description": "shufabeitie implements using canjs",
+  "version": "0.1.0",
+  "homepage": "https://www.shufabeitie.com/canjs",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "canjs": "canjs#~2.2.9",
+    "bootstrap": "~3.1.1",
+    "jquery": "~2.1.1",
+    "requirejs": "~2.1.20",
+    "requirejs-text": "~2.0.14",
+    "swiper": "3.1.0"
+  }
+}

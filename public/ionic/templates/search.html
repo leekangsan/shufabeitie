@@ -1,0 +1,21 @@
+<ion-view view-title="搜索">
+  <ion-content>
+    <div class="card">
+      <div class="item item-text-wrap">
+        输入书法作品名或者是书法家的名字进行搜索，最多返回120个结果。
+      </div>
+      <form class="item item-input-inset" ng-submit="search()">
+        <label class="item-input-wrapper">
+          <input type="text" ng-model="search.keywords" placeholder="书法作品名或者是书法家">
+        </label>
+        <button class="button button-small button-clear">搜索</button>
+      </form>
+    </div>
+    <div class="list" id="beitie-authors">
+      <a class="item" bindonce ng-repeat="(index, fatie) in faties | filter:query" href="#/shufa/{{fatie.author}}/{{fatie.paper}}">
+        {{index + 1}}. {{fatie.paper}}
+      </a>
+    </div>
+  </ion-content>
+</ion-view>
+

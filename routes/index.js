@@ -21,7 +21,12 @@ router.get('/', function(req, res, next) {
         faties: random
     };
 
-    res.render('index', data);
+    if (req.xhr || /json/.test(req.get('Accept'))) {
+        // xhr
+        res.json(random);
+    } else {
+        res.render('index', data);
+    }
 });
 
 router.get('/more', function(req, res, next) {
@@ -49,18 +54,20 @@ router.get('/page', function(req, res, next) {
 
 router.get('/upload', function(req, res, next) {
     var data = {
-        title: '书法碑帖/访客上传'
+        title: '书法碑帖/碑帖上传'
     };
 
     res.render('upload', data);
 });
 
 router.post('/upload', function(req, res, next) {
-    var file = './uploads/data.json';
+    var file = path.join('uploads', 'data.json');
     var json = jsonarrayutils.read(file);
-    req.body.datetime = new Date().getTime();
-    json.unshift(req.body);
-    jsonarrayutils.write(file, json);
+    if (json.length <= 100) {
+        req.body.datetime = new Date().getTime();
+        json.unshift(req.body);
+        jsonarrayutils.write(file, json);
+    }
 
     res.redirect('/');
 });

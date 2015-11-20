@@ -1,0 +1,14 @@
+<ion-view view-title="首页">
+  <ion-content>
+    <div class="card">
+      <div class="item item-text-wrap">
+        首页会随机刷出60个法帖。
+      </div>
+    </div>
+    <div id="beitie-imgs-container" class="list">
+      <a class="item" ng-repeat="(index, fatie) in faties" href="#/shufa/{{fatie.author}}/{{fatie.paper}}">
+        {{index + 1}}. {{fatie.paper}}
+      </a>
+    </div>
+  </ion-content>
+</ion-view>

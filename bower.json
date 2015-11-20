@@ -1,0 +1,12 @@
+{
+  "name": "shufabeitie-expressjs",
+  "description": "shufabeitie implements using expressjs",
+  "version": "1.0.0",
+  "homepage": "https://www.shufabeitie.com/",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "jquery": "~1.11.2",
+    "bootstrap": "~3.3.4"
+  }
+}

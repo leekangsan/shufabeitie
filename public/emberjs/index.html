@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>书法碑帖</title>
+    <meta name="description" content="中国史上各朝各代书法名家的书法碑帖">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="bower_components/swiper/dist/css/swiper.css">
+    <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+<script type="text/x-handlebars" data-template-name="application">
+    <nav id="navbar-top" class="navbar navbar-inverse">
+        <div class="container-fluit">
+            <div class="navbar-header">
+                <button type="button" data-toggle="collapse" data-target="#navbar-collapse" class="navbar-toggle collapsed">
+                    <span class="sr-only"></span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
+                </button>
+                <a href="/emberjs/#" class="navbar-brand">书法碑帖</a>
+            </div>
+            <div id="navbar-collapse" class="collapse navbar-collapse">
+                <ul class="nav navbar-nav navbar-left">
+                    <li class="nav-link"><a href="#/">首页</a></li>
+                    <li class="nav-link"><a href="#/authors">历代名家</a></li>
+                    <li class="nav-link"><a href="#/search">搜索</a></li>
+                    <li class="dropdown">
+                        <div id="version-switch" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                        aria-haspopup="true" aria-expanded="false">
+                            Versions<span class="caret"></span>
+                        </div>
+                        <ul class="dropdown-menu">
+                            <li class="nav-link"><a href="/">ExpressJS</a></li>
+                            <li class="nav-link"><a href="/angularjs/#/">AngularJS</a></li>
+                            <li class="nav-link"><a href="/angularjs-requirejs/#/">AngularJS&RequireJS</a></li>
+                            <li class="nav-link"><a href="/backbonejs/#/">Backbone.js</a></li>
+                            <li class="nav-link"><a href="/react/#/">React.js</a></li>
+                            <li class="nav-link"><a href="/emberjs/#/">Ember.js</a></li>
+                            <li class="nav-link"><a href="/knockoutjs/#/">Knockout.js</a></li>
+                            <li class="nav-link"><a href="/canjs/#!">Can.js</a></li>
+                            <li class="nav-link"><a href="/ionic/#/">ionic</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div id="beities" class="container-fluid">
+        <div class="row">
+            <div class="col-md-12" id="beitie-container">
+                {{outlet}}
+            </div>
+        </div>
+    </div>
+    <footer id="footer">
+        <div id="footer-info">&copy; shufabeitie.com 沪ICP备15020815号</div>
+    </footer>
+</script>
+
+<script type="text/x-handlebars" data-template-name="index">
+    <div class="alert alert-info">首页会随机刷出60个法帖。</div>
+    <div id="beitie-imgs-container" class="row">
+        {{#each model key="@guid" as |fatie index|}}
+        <div class="col-md-4 col-sm-6">
+            <div class="thumbnail">
+                <div class="caption ellipsis"><a href="#/shufa/{{fatie.author}}/{{fatie.paper}}">{{incremention index}}. {{fatie.paper}}</a></div>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+</script>
+
+<script type="text/x-handlebars" data-template-name="search">
+    <div class="alert alert-info">
+        输入书法作品名或者是书法家的名字进行搜索，最多返回120个结果。
+    </div>
+    <form class="form search-form alert alert-warning" {{action "search" on="submit"}}>
+        <div class="row">
+            <div class="col-md-6 col-sm-12">
+                <div class="input-group">
+                    <input type="text" name="keywords" value="王羲之" id="keywords" class="form-control" placeholder="书法作品名或者是书法家">
+                    <span class="input-group-btn">
+                        <input type="submit" value="搜索" class="btn btn-default">
+                    </span>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div id="beitie-imgs-container" class="row">
+        {{#each model key="@guid" as |fatie index|}}
+        <div class="col-md-4 col-sm-6">
+            <div class="thumbnail">
+                <div class="caption ellipsis"><a href="#/shufa/{{fatie.author}}/{{fatie.paper}}">{{incremention index}}. {{fatie.paper}}</a></div>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+</script>
+
+<script type="text/x-handlebars" data-template-name="authors">
+    {{#each model key="@index" as |author index|}}
+    <div class="col-md-3 col-xs-6">
+        <div class="thumbnail">
+            <div class="caption ellipsis">
+                <a href="#/shufa/{{author.name}}">{{incremention index}}. {{author.name}}</a>
+            </div>
+        </div>
+    </div>
+    {{/each}}
+</script>
+
+<script type="text/x-handlebars" data-template-name="faties">
+    <ol class="alert alert-info breadcrumb">
+        <li><a href="#/authors">历代名家</a></li>
+        <li class="active">{{model.author}}</li>
+    </ol>
+    <div id="beitie-list" class="row">
+        {{#each model.faties key="@index" as |fatie index|}}
+        <div class="col-md-4 col-sm-6">
+            <div class="thumbnail">
+                <div class="caption ellipsis"><a href="#/{{fatie.value}}">{{incremention index}}. {{fatie.key}}</a></div>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+</script>
+
+<script type="text/x-handlebars" data-template-name="show">
+    <ol class="breadcrumb alert alert-info">
+        <li><a href="#/authors">历代名家</a></li>
+        <li><a href="#/shufa/{{model.author}}">{{model.author}}</a></li>
+        <li><a href="#/shufa/{{model.author}}/{{model.prev}}">上一法帖</a></li>
+        <li><a href="#/shufa/{{model.author}}/{{model.next}}">下一法帖</a></li>
+        <li class="paper-name-container active">{{model.paper}}</li>
+    </ol>
+
+    {{#if model.images}}
+    <div id="beitie-imgs-container">
+        {{fatie-swiper model=model}}
+
+        <div id="beitie-display-container" class="thumbnail beitie-img-container">
+            <img src="/{{model.path1000}}/{{model.cover}}" class="image-responsive beitie-img">
+        </div>
+        <div id="beitie-text-container" class="alert alert-info {{model.published}}">
+            <div id="beitie-text-show">{{{model.info.html}}}</div>
+        </div>
+    </div>
+    {{/if}}
+</script>
+
+<script type="text/x-handlebars" data-template-name="components/fatie-swiper">
+    <div class="beitie-swiper-container" data-img-size="{{model.images.length}}">
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+                {{#each model.images key="@index" as |image index|}}
+                <div id="a{{incremention index}}" class="swiper-slide thumbnail beitie-img-container">
+                    {{fatie-image path100=model.path100 image=image path1000=model.path1000 action="displayFatie"}}
+                </div>
+                {{/each}}
+            </div>
+            <div class="swiper-scrollbar"></div>
+        </div>
+    </div>
+</script>
+
+<script src="bower_components/jquery/dist/jquery.js"></script>
+<script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="bower_components/swiper/dist/js/swiper.min.js"></script>
+<script src="bower_components/ember/ember-template-compiler.js"></script>
+<script src="bower_components/ember/ember.prod.js"></script>
+<script src="bower_components/ember-data/ember-data.js"></script>
+<script src="app/app.js"></script>
+<script src="app/router.js"></script>
+<script src="app/adapter.js"></script>
+<script src="app/components.js"></script>
+<script src="app/incremention.js"></script>
+</body>
+</html>

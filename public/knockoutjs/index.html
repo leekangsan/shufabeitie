@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>书法碑帖</title>
+    <meta name="description" content="中国史上各朝各代书法名家的书法碑帖">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="bower_components/swiper/dist/css/swiper.css">
+    <link rel="stylesheet" href="css/app.css">
+</head>
+
+<body>
+    <nav id="navbar-top" class="navbar navbar-inverse">
+        <div class="container-fluit">
+            <div class="navbar-header">
+                <button type="button" data-toggle="collapse" data-target="#navbar-collapse" class="navbar-toggle collapsed">
+                    <span class="sr-only"></span><span class="icon-bar"></span>
+                    <span class="icon-bar"></span><span class="icon-bar"></span>
+                </button>
+                <a href="/knockoutjs/#" class="navbar-brand">书法碑帖</a>
+            </div>
+            <div id="navbar-collapse" class="collapse navbar-collapse">
+                <ul class="nav navbar-nav navbar-left">
+                    <li class="nav-link"><a href="#/">首页</a>
+                    </li>
+                    <li class="nav-link"><a href="#/authors">历代名家</a>
+                    </li>
+                    <li class="nav-link"><a href="#/search">搜索</a>
+                    </li>
+                    <li class="dropdown">
+                        <div id="version-switch" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                        aria-haspopup="true" aria-expanded="false">
+                            Versions<span class="caret"></span>
+                        </div>
+                        <ul class="dropdown-menu">
+                            <li class="nav-link"><a href="/">ExpressJS</a></li>
+                            <li class="nav-link"><a href="/angularjs/#/">AngularJS</a></li>
+                            <li class="nav-link"><a href="/angularjs-requirejs/#/">AngularJS&RequireJS</a></li>
+                            <li class="nav-link"><a href="/backbonejs/#/">Backbone.js</a></li>
+                            <li class="nav-link"><a href="/react/#/">React.js</a></li>
+                            <li class="nav-link"><a href="/emberjs/#/">Ember.js</a></li>
+                            <li class="nav-link"><a href="/knockoutjs/#/">Knockout.js</a></li>
+                            <li class="nav-link"><a href="/canjs/#!">Can.js</a></li>
+                            <li class="nav-link"><a href="/ionic/#/">ionic</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div id="beities" class="container-fluid">
+        <div class="row">
+            <div class="col-md-12" id="beitie-container">
+
+                <div id="ko-index" class="ko-path">
+                    <div class="alert alert-info">首页会随机刷出60个法帖。</div>
+                    <div class="row beitie-container hide" id="beitie-index-container" data-bind="template : {foreach: faties}">
+                        <div class="col-md-4 col-sm-6">
+                            <div class="thumbnail">
+                                <div class="caption ellipsis">
+                                    <a href="#" data-bind="attr: {href: href}, text: text"></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="ko-authors" class="ko-path">
+                    <div class="alert alert-info">中国历史上的书法名家列表。</div>
+                    <div id="beitie-authors-container" class="row hide" data-bind="foreach: authors">
+                        <div class="col-md-3 col-xs-6">
+                            <div class="thumbnail">
+                                <div class="caption ellipsis">
+                                    <a href="#" data-bind="attr: {href: href}, text: text"></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="ko-faties" class="ko-path">
+                    <ol class="alert alert-info breadcrumb">
+                        <li><a href="#/authors">历代名家</a></li>
+                        <li class="active" data-bind="text: author"></li>
+                    </ol>
+                    <div id="beitie-list" class="row hide" data-bind="template: {faties, foreach: faties}">
+                        <div class="col-md-4 col-sm-6">
+                            <div class="thumbnail">
+                                <div class="caption ellipsis"><a href="#" data-bind="attr: {href: href}, text:text"></a></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="ko-show" class="ko-path" data-bind="template: {if: params}">
+                    <fatie-show params="author: params().author, fatie: params().fatie"></fatie-show>
+                </div>
+
+                <div id="ko-search" class="ko-path">
+                    <div class="alert alert-info">
+                        输入书法作品名或者是书法家的名字进行搜索，最多返回120个结果。
+                    </div>
+                    <form class="form search-form alert alert-warning" data-bind="submit: search">
+                        <div class="row">
+                            <div class="col-md-6 col-sm-12">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="书法作品名或者是书法家" data-bind="value: keywords">
+                                    <span class="input-group-btn">
+                                        <input type="submit" value="搜索" class="btn btn-default">
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="row beitie-container hide" id="beitie-search-container" data-bind="template: {foreach: faties}">
+                        <div class="col-md-4 col-sm-6">
+                            <div class="thumbnail">
+                                <div class="caption ellipsis"><a href="#" data-bind="attr: {href: href}, text:text"></a></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <footer id="footer">
+        <div id="footer-info">&copy; shufabeitie.com 沪ICP备15020815号</div>
+    </footer>
+
+    <script data-main="js/app" src="bower_components/requirejs/require.js"></script>
+</body>
+</html>

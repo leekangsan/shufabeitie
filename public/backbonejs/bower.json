@@ -1,0 +1,18 @@
+{
+  "name": "shufabeitie-backbonejs",
+  "description": "shufabeitie implements using backbonejs",
+  "version": "0.1.1",
+  "homepage": "https://www.shufabeitie.com/backbonejs",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "requirejs": "2.1.20",
+    "requirejs-text": "2.0.10",
+    "jquery": "~2.1.1",
+    "bootstrap": "~3.1.1",
+    "backbone": "~1.2.1",
+    "handlebars": "~3.0.3",
+    "backbone-fetch-cache": "~1.5.5",
+    "swiper": "3.1.0"
+  }
+}

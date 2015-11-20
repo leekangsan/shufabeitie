@@ -1,0 +1,24 @@
+<div class="alert alert-info">中国历史上的书法名家列表。</div>
+<form class="form author-form form-horizontal alert alert-warning">
+    <div class="row">
+        <div class="col-md-6 col-sm-12">
+            <div class="input-group">
+                <input id="author-query" can-value="author" class="form-control" placeholder="历代书法名家">
+                <span class="input-group-btn">
+                    <button class="btn btn-default">过滤</button>
+                </span>
+            </div>
+        </div>
+    </div>
+</form>
+<div class="row" id="beitie-authors">
+    {{#each authors}}
+    <div class="col-md-3 col-xs-6">
+        <div class="thumbnail">
+            <div class="caption ellipsis">
+                <a href="#!shufa/{{this}}">{{@index 1}}.{{.}}</a>
+            </div>
+        </div>
+    </div>
+    {{/each}}
+</div>

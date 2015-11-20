@@ -4,10 +4,16 @@ html {
 #navbar-top {
     border-radius: 0;
 }
-#beitie-text {
-    height: 260px;
+.beitie-version {
+    font-size: 12px;
+    margin-left: 10px;
+    color: #fff;
 }
-#beitie-text-show {
+#beitie-text {
+    height: 360px;
+}
+#beitie-text-container p {
+    margin: 0;
     text-indent: 2em;
 }
 .beitie-info-row {
@@ -17,9 +23,6 @@ html {
 #beitie-description {
     width: 95%;
     resize: none;
-}
-h4.beitie-intro {
-    color: #666;
 }
 #beitie-imgs-container {
     position: relative;
@@ -50,27 +53,38 @@ h4.beitie-intro {
     text-decoration: none;
 }
 #beitie-img-pagination {
+    background: #000;
     position: fixed;
     text-align: center;
     opacity: .5;
     list-style: none;
+    margin: 0;
     padding: 0;
     bottom: 0;
-    left: 50%;
-    width: 190px;
-    margin: 0 0 0 -95px;
+    width: 100%;
 }
 #beitie-img-pagination li {
-    float: left;
+    display: inline;
 }
-#beitie-img-pagination li + li {
-    margin-left: 50px;
+#beitie-img-home {
+    margin-right: 50px;
 }
 #beitie-img-pagination .btn {
     width: 68px;
 }
+#footer-pagination {
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+}
 #footer-info {
     background: #000;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+}
+#footer-navigator {
+    background: #fff;
     height: 50px;
     line-height: 50px;
     text-align: center;
@@ -97,4 +111,9 @@ h4.beitie-intro {
     box-sizing: border-box;
     padding: 10px;
     font-size: 16px;
+}
+#version-switch {
+    padding: 15px;
+    cursor: pointer;
+    color: #999;
 }

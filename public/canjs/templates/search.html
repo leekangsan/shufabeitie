@@ -1,0 +1,24 @@
+<div class="alert alert-info">
+    输入书法作品名或者是书法家的名字进行搜索，最多返回120个结果。
+</div>
+<form class="form search-form alert alert-warning">
+    <div class="row">
+        <div class="col-md-6 col-sm-12">
+            <div class="input-group">
+                <input type="text" name="keywords" id="keywords" can-value="keywords" class="form-control" placeholder="书法作品名或者是书法家">
+                <span class="input-group-btn">
+                    <input type="submit" value="搜索" class="btn btn-default">
+                </span>
+            </div>
+        </div>
+    </div>
+</form>
+<div id="beitie-imgs-container" class="row">
+    {{#each faties}}
+    <div class="col-md-4 col-sm-6">
+        <div class="thumbnail">
+            <div class="caption ellipsis"><a href="#!shufa/{{author}}/{{paper}}">{{@index 1}}. {{paper}}</a></div>
+        </div>
+    </div>
+    {{/each}}
+</div>

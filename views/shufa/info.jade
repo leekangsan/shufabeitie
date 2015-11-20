@@ -16,12 +16,8 @@ block content
 
         form#beitie-info-container.form.alert.alert-warning(method="post")
             .row.form-group
-                .col-md-4
-                    label 名称
-                    input.form-control(type="text", name="name", value="#{info.name}")
-            .row.form-group
                 .col-md-12
-                    label 内容
+                    label 碑帖简介
                     textarea#beitie-text.form-control(name="text")= info.text
             .row.beitie-info-row
                 .col-md-12

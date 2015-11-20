@@ -4,11 +4,12 @@
         "script": "bin/www",
         "log_date_format": "YYYY-MM-DD HH:mm Z",
         "ignore_watch": ["[\\/\\\\]\\./", "node_modules", "public/beitie"],
-        "watch": true,
+        "watch": false,
         "vizion": true,
         "autorestart": true,
         "env": {
-            "NODE_ENV": "development"
+            "NODE_ENV": "production",
+            "PORT": 3000
         }
     }]
 }

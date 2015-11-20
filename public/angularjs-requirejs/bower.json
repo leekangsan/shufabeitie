@@ -1,0 +1,21 @@
+{
+  "name": "shufabeitie-angularjs-requirejs",
+  "description": "shufabeitie implements using angularJS with requirejs",
+  "version": "0.2.1",
+  "homepage": "https://www.shufabeitie.com/angularjs-requirejs/",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "jquery": "~2.1.1",
+    "bootstrap": "~3.1.1",
+    "angular": "1.4.x",
+    "angular-mocks": "1.4.x",
+    "angular-loader": "1.4.x",
+    "angular-route": "1.4.x",
+    "angular-resource": "1.4.x",
+    "angular-animate": "1.4.x",
+    "html5-boilerplate": "~5.2.0",
+    "swiper": "3.1.0",
+    "requirejs": "~2.1.20"
+  }
+}

@@ -1,0 +1,14 @@
+<ol class="alert alert-info breadcrumb">
+    <li><a href="#/authors">历代名家</a></li>
+    <li class="active">{{author}}</li>
+</ol>
+<div id="beitie-list" class="row">
+    {{#foreach papers}}
+    <div class="col-md-4 col-sm-6">
+        <div class="thumbnail">
+            <div class="caption ellipsis"><a href="#/{{value}}">{{@index}}. {{key}}</a></div>
+        </div>
+    </div>
+    {{/foreach}}
+</div>
+

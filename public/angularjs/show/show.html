@@ -1,0 +1,20 @@
+<ol class="breadcrumb alert alert-info">
+    <li><a href="#/authors">历代名家</a></li>
+    <li><a href="#/shufa/{{fatie.author}}">{{fatie.author}}</a></li>
+    <li><a href="#/shufa/{{fatie.author}}/{{fatie.prev}}">上一法帖</a></li>
+    <li><a href="#/shufa/{{fatie.author}}/{{fatie.next}}">下一法帖</a></li>
+    <li class="paper-name-container active">{{fatie.paper}}</li>
+</ol>
+
+<div id="beitie-imgs-container" ng-if="fatie.images.length">
+
+    <ks-swiper-container swiper="swiper" on-ready="onReadySwiper(swiper)" initial-slide="0" loop="false" show-nav-buttons="false" slides-per-view="1" space-between="15" pagination-clickable="false" data-img-size="{{fatie.images.length}}">
+        <ks-swiper-slide class="swiper-slide thumbnail beitie-img-container" ng-repeat="(index, image) in fatie.images">
+            <ks-fatie-image class="fatie-image" data-index="{{index}}" image="image" fatie="fatie"></ks-fatie-image>
+        </ks-swiper-slide>
+    </ks-swiper-container>
+
+    <div id="beitie-text-container" class="alert alert-info {{published}}">
+        <div id="beitie-text-show" ng-bind-html="fatie.info.html"></div>
+    </div>
+</div>

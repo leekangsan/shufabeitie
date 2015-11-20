@@ -1,0 +1,10 @@
+<div class="alert alert-info">首页会随机刷出60个法帖。</div>
+<div id="beitie-imgs-container" class="row">
+    {{#foreach faties}}
+    <div class="col-md-4 col-sm-6">
+        <div class="thumbnail">
+            <div class="caption ellipsis"><a href="#/shufa/{{author}}/{{paper}}">{{@index}}. {{paper}}</a></div>
+        </div>
+    </div>
+    {{/foreach}}
+</div>

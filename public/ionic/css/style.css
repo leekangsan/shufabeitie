@@ -1,0 +1,51 @@
+.hide {
+    display: none;
+}
+.show {
+    display: '';
+}
+.beitie-swiper-container {
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    padding: 0 10px;
+    margin-bottom: 20px;
+    background-color: #e0e0e0;
+}
+.swiper-container {
+    width: 100%;
+    margin: 0 auto;
+}
+.beitie-img-container {
+    text-align: center;
+    font-size: 18px;
+    background: #fff;
+    max-height: 100%;
+    padding: 0 10px;
+
+    /* Center slide text vertically */
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+}
+.beitie-img {
+    border-radius: 4px;
+    width: 100%;
+}
+.ion-slide-first{
+    z-index: 1000;
+}
+.up-lvl {
+  margin: 0 10px 0 0;
+}
+.item-input-inset .item-input-wrapper input {
+    width: 98%;
+}

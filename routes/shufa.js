@@ -10,6 +10,21 @@ var router = express.Router();
 var beitie = 'beitie';
 var root = 'public';
 var shufa = 'shufa';
+var reg = /^[\u4e00-\u9fa5]/;
+
+var xhr = function (req) {
+    if (req.xhr || /json/.test(req.get('Accept'))) {
+        return true;
+    }
+    return false;
+};
+
+// url最后如果不是斜杠结束，则加上斜杠重定向
+router.use(/(^.*?[^\/])$/, function(req, res, next) {
+    var url = path.join('/', 'shufa', req.params[0], '/');
+    console.log('redirect to url', url);
+    res.redirect(url);
+});
 
 router.use(/(.*?)\/(.*?)\/info$/, function(req, res, next) {
     var user = req.session.user;
@@ -21,13 +36,18 @@ router.use(/(.*?)\/(.*?)\/info$/, function(req, res, next) {
 });
 
 // define the home page route
-router.get('/', function(req, res) {
+router.get(['/', '/authors'], function(req, res) {
     var data = {
         title: '书法碑帖',
         authors: faties.authors
     };
 
-    res.render(path.join(shufa, 'index'), data);
+    if (xhr(req)) {
+        // xhr
+        res.json(faties.authors);
+    } else {
+        res.render(path.join(shufa, 'index'), data);
+    }
 });
 
 router.get('/login', function(req, res) {
@@ -50,7 +70,7 @@ router.post('/login', function(req, res) {
     }
 });
 
-// define the show shufa list route, 一级目录路径: /shufa/东晋-王羲之/
+// define the show shufa list route, 一级目录路径: /shufa/东晋王羲之/
 router.get(/^\/([^\/]*)\/$/, function(req, res) {
     var author = decodeURIComponent(req.params[0]),
         file = path.join(root, beitie, author),
@@ -80,11 +100,16 @@ router.get(/^\/([^\/]*)\/$/, function(req, res) {
             folders: folders
         };
 
-        res.render(path.join(shufa, 'list'), data);
+        if (xhr(req)) {
+            // xhr
+            res.json(folders);
+        } else {
+            res.render(path.join(shufa, 'list'), data);
+        }
     }
 });
 
-// define the show shufa details route, 二级碑帖内容显示路径: /shufa/北魏-五代-敦煌写经/转轮经/
+// define the show shufa details route, 二级碑帖内容显示路径: /shufa/敦煌写经/转轮经/
 router.get(/^\/(.*?)\/(.*?)\/$/, function(req, res) {
     var author = decodeURIComponent(req.params[0]),
         paper = decodeURIComponent(req.params[1]),
@@ -117,7 +142,7 @@ router.get(/^\/(.*?)\/(.*?)\/$/, function(req, res) {
         var fileName = path.join(parentDirectory, item),
             stats = fs.statSync(fileName);
 
-        if (/^[\u4e00-\u9fa5]/.test(item) && stats.isDirectory()) {
+        if (reg.test(item) && stats.isDirectory()) {
             return true;
         }
     });
@@ -139,7 +164,7 @@ router.get(/^\/(.*?)\/(.*?)\/$/, function(req, res) {
     });
 
     var json = {
-        info: {},
+        info: {text: ''},
         title: path.join('书法碑帖', author, paper),
         images: images,
         paper: paper,
@@ -151,10 +176,16 @@ router.get(/^\/(.*?)\/(.*?)\/$/, function(req, res) {
     };
     if (infoexist) {
         var versions = jsonarrayutils.read(infofile);
-        json.info = versions[0] || {};
-        json.info.text = '<p>' + json.info.text.replace(/\n+/g, '<p>');
+        json.info = versions[0] || {text: ''};
     }
-    res.render(path.join(shufa, 'show'), json);
+
+    if (xhr(req)) {
+        // xhr
+        res.json(json);
+    } else {
+        json.info.text = '<p>' + json.info.text.replace(/\n+/g, '<p>');
+        res.render(path.join(shufa, 'show'), json);
+    }
 });
 
 // edit info.json
@@ -166,14 +197,14 @@ router.get(/^\/(.*?)\/(.*?)\/info$/, function(req, res) {
         parentDirectory = path.join(root, beitie, author),
         infofile = path.join(dir, info),
         versions = jsonarrayutils.read(infofile),
-        infojson = versions[0] || {name: '', text: ''};
+        infojson = versions[0] || {text: ''};
 
     // 找到上一个法帖和下一个法帖的文件夹位置
     var siblings = fs.readdirSync(parentDirectory).filter(function(item) {
         var fileName = path.join(parentDirectory, item),
             stats = fs.statSync(fileName);
 
-        if (/^[\u4e00-\u9fa5]/.test(item) && stats.isDirectory()) {
+        if (reg.test(item) && stats.isDirectory()) {
             return true;
         }
     });
@@ -190,6 +221,7 @@ router.get(/^\/(.*?)\/(.*?)\/info$/, function(req, res) {
     }
 
     var json = {
+        title: "书法碑帖简介",
         info: infojson,
         paper: paper,
         author: author,
@@ -206,17 +238,15 @@ router.post(/(.*?)\/(.*?)\/info$/, function(req, res) {
         dir = path.join(root, beitie, author, paper),
         info = 'info.json',
         infofile = path.join(dir, info),
-        versions = jsonarrayutils.read(infofile);
+        versions = [];
 
     // 保存时需要将最新的版本加到数组最前面
     // 删除中英文空格
     req.body.text = req.body.text.replace(/[\u0020\u3000\u00a0]+/g, '').replace(/[\r\n]+/g, '\n').replace(/\[\d+\]/g, '');
-    // 最新的版本放在info.json数组的最前面，并加入编辑时间戳和用户user.id
-    req.body.user = req.session.user.id;
     req.body.timestamp = new Date().getTime();
     // 内容是否已经可以发布
-    req.body.verified = true;
-    versions.unshift(req.body);
+    req.body.published = true;
+    versions.push(req.body);
     jsonarrayutils.write(infofile, versions);
 
     res.redirect('./');

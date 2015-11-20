@@ -1,0 +1,11 @@
+<ol class="alert alert-info breadcrumb">
+    <li><a href="#/authors">历代名家</a></li>
+    <li class="active">{{author}}</li>
+</ol>
+<div id="beitie-list" class="row">
+    <div class="col-md-4 col-sm-6" ng-repeat="(index, fatie) in faties">
+        <div class="thumbnail">
+            <div class="caption ellipsis"><a href="#/{{fatie.value}}">{{index + 1}}. {{fatie.key}}</a></div>
+        </div>
+    </div>
+</div>
