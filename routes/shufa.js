@@ -26,7 +26,7 @@ router.use(/(^.*?[^\/])$/, function(req, res, next) {
     res.redirect(url);
 });
 
-router.use(/(.*?)\/(.*?)\/info$/, function(req, res, next) {
+router.use(/(.*?)\/(.*?)\/info\/?$/, function(req, res, next) {
     var user = req.session.user;
     if (authenticate(user)) {
         next();
@@ -110,7 +110,7 @@ router.get(/^\/([^\/]*)\/$/, function(req, res) {
 });
 
 // define the show shufa details route, 二级碑帖内容显示路径: /shufa/敦煌写经/转轮经/
-router.get(/^\/(.*?)\/(.*?)\/$/, function(req, res) {
+router.get(/^\/([^\/]*?)\/([^\/]*?)\/$/, function(req, res) {
     var author = decodeURIComponent(req.params[0]),
         paper = decodeURIComponent(req.params[1]),
         dir = path.join(root, beitie, author, paper),
@@ -189,7 +189,7 @@ router.get(/^\/(.*?)\/(.*?)\/$/, function(req, res) {
 });
 
 // edit info.json
-router.get(/^\/(.*?)\/(.*?)\/info$/, function(req, res) {
+router.get(/^\/(.*?)\/(.*?)\/info\/?$/, function(req, res) {
     var author = decodeURIComponent(req.params[0]),
         paper = decodeURIComponent(req.params[1]),
         info = 'info.json',
@@ -232,7 +232,7 @@ router.get(/^\/(.*?)\/(.*?)\/info$/, function(req, res) {
 });
 
 // save info.json
-router.post(/(.*?)\/(.*?)\/info$/, function(req, res) {
+router.post(/(.*?)\/(.*?)\/info\/?$/, function(req, res) {
     var author = decodeURIComponent(req.params[0]),
         paper = decodeURIComponent(req.params[1]),
         dir = path.join(root, beitie, author, paper),
