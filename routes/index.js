@@ -52,24 +52,4 @@ router.get('/page', function(req, res, next) {
     res.json(more);
 });
 
-router.get('/upload', function(req, res, next) {
-    var data = {
-        title: '书法碑帖/碑帖上传'
-    };
-
-    res.render('upload', data);
-});
-
-router.post('/upload', function(req, res, next) {
-    var file = path.join('uploads', 'data.json');
-    var json = jsonarrayutils.read(file);
-    if (json.length <= 100) {
-        req.body.datetime = new Date().getTime();
-        json.unshift(req.body);
-        jsonarrayutils.write(file, json);
-    }
-
-    res.redirect('/');
-});
-
 module.exports = router;

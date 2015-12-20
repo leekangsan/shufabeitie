@@ -114,7 +114,7 @@ router.get(/^\/([^\/]*?)\/([^\/]*?)\/$/, function(req, res) {
     var author = decodeURIComponent(req.params[0]),
         paper = decodeURIComponent(req.params[1]),
         dir = path.join(root, beitie, author, paper),
-        info = 'info.json',
+        info = '_data.json',
         parentDirectory = path.join(root, beitie, author),
         infofile = path.join(dir, info),
         infoexist = false,
@@ -188,11 +188,11 @@ router.get(/^\/([^\/]*?)\/([^\/]*?)\/$/, function(req, res) {
     }
 });
 
-// edit info.json
+// edit _data.json
 router.get(/^\/(.*?)\/(.*?)\/info\/?$/, function(req, res) {
     var author = decodeURIComponent(req.params[0]),
         paper = decodeURIComponent(req.params[1]),
-        info = 'info.json',
+        info = '_data.json',
         dir = path.join(root, beitie, author, paper),
         parentDirectory = path.join(root, beitie, author),
         infofile = path.join(dir, info),
@@ -231,12 +231,12 @@ router.get(/^\/(.*?)\/(.*?)\/info\/?$/, function(req, res) {
     res.render(path.join(shufa, 'info'), json);
 });
 
-// save info.json
+// save _data.json
 router.post(/(.*?)\/(.*?)\/info\/?$/, function(req, res) {
     var author = decodeURIComponent(req.params[0]),
         paper = decodeURIComponent(req.params[1]),
         dir = path.join(root, beitie, author, paper),
-        info = 'info.json',
+        info = '_data.json',
         infofile = path.join(dir, info),
         versions = [];
 

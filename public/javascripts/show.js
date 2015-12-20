@@ -53,7 +53,7 @@ $(function() {
 
     // 向下翻页
     var nextLoading = false;
-    $('#beitie-img-next').click(function() {
+    $('#beitie-pagination-next').click(function() {
         if (nextLoading === true) {
             return false;
         }
@@ -61,7 +61,7 @@ $(function() {
         var next = $('#a' + current);
         if (next.length === 0) {
             current = current - 1;
-            $('#beitie-img-blocks,#beitie-img-next').toggleClass('hide');
+            $('#beitie-img-blocks,#beitie-pagination-next').toggleClass('hide');
             return false;
         } else {
             if (next.hasClass('beitie-lazy-container')) {

@@ -4,6 +4,9 @@ html {
 #navbar-top {
     border-radius: 0;
 }
+#beities {
+    margin-bottom: 40px;
+}
 .beitie-version {
     font-size: 12px;
     margin-left: 10px;
@@ -52,26 +55,6 @@ html {
     color: #999;
     text-decoration: none;
 }
-#beitie-img-pagination {
-    background: #000;
-    position: fixed;
-    text-align: center;
-    opacity: .5;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    bottom: 0;
-    width: 100%;
-}
-#beitie-img-pagination li {
-    display: inline;
-}
-#beitie-img-home {
-    margin-right: 50px;
-}
-#beitie-img-pagination .btn {
-    width: 68px;
-}
 #footer-pagination {
     height: 50px;
     line-height: 50px;
@@ -84,10 +67,18 @@ html {
     text-align: center;
 }
 #footer-navigator {
-    background: #fff;
-    height: 50px;
-    line-height: 50px;
+    width: 100%;
+    line-height: 32px;
     text-align: center;
+    position: fixed;
+    bottom: 0;
+}
+#footer-navigator:before, #footer-navigator:after {
+    content: "";
+    display: table;
+}
+#footer-navigator:after {
+    clear: both;
 }
 .ellipsis {
     text-overflow: ellipsis;
@@ -116,4 +107,19 @@ html {
     padding: 15px;
     cursor: pointer;
     color: #999;
+}
+#beitie-pagination-top, #beitie-img-blocks, #beitie-pagination-next {
+    width: 60px;
+    background-color: rgba(0, 0, 0, .4);
+    border-radius: 4px;
+    color: #fff;
+    text-decoration: none;
+}
+#beitie-pagination-top {
+    float: left;
+    margin: 5px 0 5px 20px;
+}
+#beitie-pagination-next, #beitie-img-blocks {
+    float: right;
+    margin: 5px 20px 5px 0;
 }

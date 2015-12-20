@@ -37,13 +37,9 @@ block content
 block footer
     footer#footer
         #footer-navigator
-            ul#beitie-img-pagination
-                li(role="presentation")
-                    a#beitie-img-home.btn.btn-default(href="#navbar-top") 顶部
-                li(role="presentation")
-                    a#beitie-img-blocks.btn.btn-default.hide(href="#") 平铺
-                li(role="presentation")
-                    a#beitie-img-next.btn.btn-default(href="#") 下一张
+            a#beitie-pagination-top(href="#navbar-top") 顶部
+            a#beitie-img-blocks.hide(href="#") 平铺
+            a#beitie-pagination-next(href="#") 下一张
 
         script(src="/javascripts/jquery.blocksit.js")
         script(src="/javascripts/show.js")
