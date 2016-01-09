@@ -11,9 +11,9 @@ else
     for file in $(ls $1)
     do
         old_file=$1/$file
-        if [[ $file =~ [【《〈（—:：·，。、「」［『』］）〉》】[:blank:][:space:]\\\+] ]]
+        if [[ $file =~ [【《〈（—:：·，。、「」［『』］）〉》】[:blank:][:space:]\\\+()] ]]
         then
-            new_file=$1/${file//[【《〈（—:：·，。、「」［『』］）〉》】[:blank:][:space:]\\\+]/}
+            new_file=$1/${file//[【《〈（—:：·，。、「」［『』］）〉》】[:blank:][:space:]\\\+()]/}
             echo "rename $old_file to $new_file"
             mv $old_file $new_file
 
@@ -29,6 +29,7 @@ else
 fi
 }
 
-
+IFS=$'\n'
 renamepdf "$1"
+unset IFS
 

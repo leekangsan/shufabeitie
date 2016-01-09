@@ -1,0 +1,22 @@
+#! /bin/sh
+
+if [ $# -eq 0 ]
+then
+    rsync --progress --size-only --delete --exclude=".git*" --exclude=".DS_Store" -r -v -e ssh /Users/david/shufabeitie/config/ root@shufabeitie-hk:/data/shufabeitie/config/
+    rsync --progress --size-only --delete --exclude=".git*" --exclude=".DS_Store" -r -v -e ssh /Users/david/shufabeitie/modules/ root@shufabeitie-hk:/data/shufabeitie/modules/
+    rsync --progress --size-only --delete --exclude=".git*" --exclude=".DS_Store" -r -v -e ssh /Users/david/shufabeitie/bin/ root@shufabeitie-hk:/data/shufabeitie/bin/
+    rsync --progress --size-only --delete --recursive --exclude=".classpath" --exclude=".project" --exclude=".settings" --exclude="target" --exclude="images" --exclude="pdfs" --exclude=".git*" --exclude=".DS_Store" -r -v -e ssh /Users/david/shufabeitie/java/ root@shufabeitie-hk:/data/shufabeitie/java/
+    rsync --progress --size-only --delete --exclude=".git*" --exclude=".DS_Store" -r -v -e ssh /Users/david/shufabeitie/routes/ root@shufabeitie-hk:/data/shufabeitie/routes/
+    rsync --progress --size-only --delete --exclude=".git*" --exclude=".DS_Store" -r -v -e ssh /Users/david/shufabeitie/views/ root@shufabeitie-hk:/data/shufabeitie/views/
+    rsync --progress --size-only --delete --exclude=".git*" --exclude=".DS_Store" -r -v -e ssh /Users/david/shufabeitie/public/ root@shufabeitie-hk:/data/shufabeitie/public/
+elif [ $# -eq 1 ]
+then
+    for dir in $(ls -d /Users/david/shufabeitie/public/beitie/${1} |awk -F "/" '{print $7}')
+    do
+        if [ -d /Users/david/shufabeitie/public/beitie/${dir}/ ]
+        then
+            echo rsync --progress --size-only --delete --exclude=".git*" --exclude=".DS_Store" -r -v -e ssh /Users/david/shufabeitie/public/beitie/${dir}/ root@shufabeitie-hk:/data/shufabeitie/public/beitie/${dir}/
+            rsync --progress --size-only --delete --exclude=".git*" --exclude=".DS_Store" -r -v -e ssh /Users/david/shufabeitie/public/beitie/${dir}/ root@shufabeitie-hk:/data/shufabeitie/public/beitie/${dir}/
+        fi
+    done
+fi

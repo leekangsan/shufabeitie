@@ -1,0 +1,6 @@
+#! /bin/sh
+
+if [ $# -eq 1 ]
+then
+    mvn exec:java -e -Dexec.mainClass="NineSixImagesDownloader" -Dexec.args="$1"
+fi

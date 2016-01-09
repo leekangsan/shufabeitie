@@ -1,0 +1,20 @@
+#! /bin/sh
+if [ $# -eq 1 ]
+then
+    src=/Users/david/shufabeitie/java/pdfs/$1.pdf
+    if [ -f $src ]
+    then
+        mvn exec:java -Dexec.mainClass="ExtractImages" -Dexec.args="$1"
+
+        dest=/Users/david/shufabeitie/java/images
+        /Users/david/shufabeitie/bin/jpgrename $dest
+        /Users/david/shufabeitie/bin/jpgthumbnail $dest
+        /Users/david/shufabeitie/bin/pngrename $dest
+        /Users/david/shufabeitie/bin/pngthumbnail $dest
+    else
+        echo "请输入pdf文件名即可"
+        echo $src is not exists!
+    fi
+else
+    echo "请输入pdf文件名"
+fi

@@ -1,0 +1,12 @@
+#! /bin/sh
+
+if [ -d $1 ]
+then
+    for file in $(ls $1)
+    do
+        if [[ $file =~ .*\.jpeg ]]
+        then
+            mv $1/$file $1/${file/jpeg/jpg}
+        fi
+    done
+fi

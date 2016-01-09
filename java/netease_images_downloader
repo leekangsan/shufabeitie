@@ -1,0 +1,11 @@
+#! /bin/sh
+
+if [ $# -eq 1 ]
+then
+    mvn exec:java -e -Dexec.mainClass="NetEaseExtractImages" -Dexec.args="$1"
+    # dest=/Users/david/workspace/shufa/images
+    # /Users/david/shufabeitie/bin/jpgrename $dest
+    # /Users/david/shufabeitie/bin/jpgthumbnail $dest
+    # /Users/david/shufabeitie/bin/pngrename $dest
+    # /Users/david/shufabeitie/bin/pngthumbnail $dest
+fi

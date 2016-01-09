@@ -1,0 +1,15 @@
+#! /bin/sh
+
+if [ $# -eq 0 ]
+then
+    dest=/Users/david/shufabeitie/java/images
+else
+    dest=$1
+fi
+/Users/david/shufabeitie/bin/renamefiles $dest
+/Users/david/shufabeitie/bin/jpeg2jpg $dest
+/Users/david/shufabeitie/bin/jpgrename $dest
+/Users/david/shufabeitie/bin/jpgthumbnail $dest
+/Users/david/shufabeitie/bin/pngrename $dest
+/Users/david/shufabeitie/bin/pngthumbnail $dest
+
